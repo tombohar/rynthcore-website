@@ -51,11 +51,11 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </rav>
 
     <main class="pt-32 pb-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-5xl font-black mb-4 tracking-tighter">COMMAND LINE</h1>
-        <p class="text-xl text-textSecondary mb-12">Control RynthAi and the RynthCore host directly from the game chat using the <code>/na</code> prefix.</p>
+        <p class="text-xl text-textSecondary mb-12">Control RynthAi and the RynthCore host directly from the game chat using the <code>/ra</code> prefix.</p>
 
         <div class="space-y-16">
             <!-- Core Controls -->
@@ -65,19 +65,19 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na start | on</code>
+                        <code>/ra start | on</code>
                         <span class="text-textSecondary">Starts the macro engine and enables all active subsystems.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na stop | off</code>
+                        <code>/ra stop | off</code>
                         <span class="text-textSecondary">Stops the macro engine, clearing navigation and combat targets.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na status</code>
+                        <code>/ra status</code>
                         <span class="text-textSecondary">Prints current engine status, state, and loaded profiles.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na ui</code>
+                        <code>/ra ui</code>
                         <span class="text-textSecondary">Toggles the RynthAi ImGui overlay visibility.</span>
                     </div>
                 </div>
@@ -90,31 +90,31 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na nav load &lt;file&gt;</code>
+                        <code>/ra nav load &lt;file&gt;</code>
                         <span class="text-textSecondary">Loads a VTank-compatible <code>.nav</code> route file.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na addnavpt</code>
+                        <code>/ra addnavpt</code>
                         <span class="text-textSecondary">Adds a waypoint at your current location to the active route.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na reverseroute &lt;true|false&gt;</code>
+                        <code>/ra reverseroute &lt;true|false&gt;</code>
                         <span class="text-textSecondary">Reverses the direction of waypoint traversal.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na reverseroutequery</code>
+                        <code>/ra reverseroutequery</code>
                         <span class="text-textSecondary">Displays current route reversal status.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na jump[swzxc] &lt;heading&gt; [holdtime]</code>
+                        <code>/ra jump[swzxc] &lt;heading&gt; [holdtime]</code>
                         <span class="text-textSecondary">Executes jump with direction keys: s=shift, w=forward, z=left, x=back, c=right.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na tapjump</code>
+                        <code>/ra tapjump</code>
                         <span class="text-textSecondary">Performs a single jump action.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na face &lt;heading&gt;</code>
+                        <code>/ra face &lt;heading&gt;</code>
                         <span class="text-textSecondary">Immediately turns your character to the specified heading (0-360).</span>
                     </div>
                 </div>
@@ -127,23 +127,23 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na rebuff | forcebuff</code>
+                        <code>/ra rebuff | forcebuff</code>
                         <span class="text-textSecondary">Initiates a complete buff sequence on yourself.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na cancelforcebuff</code>
+                        <code>/ra cancelforcebuff</code>
                         <span class="text-textSecondary">Cancels an active buff sequence.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na setattackbar &lt;melee|missile&gt; &lt;0-1&gt;</code>
+                        <code>/ra setattackbar &lt;melee|missile&gt; &lt;0-1&gt;</code>
                         <span class="text-textSecondary">Sets melee or missile attack power (0.0 = 0%, 1.0 = 100%).</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na autoattackpower &lt;auto|0-100&gt;</code>
+                        <code>/ra autoattackpower &lt;auto|0-100&gt;</code>
                         <span class="text-textSecondary">Sets both melee and missile power, or 'auto' for full power.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na blacklist [clear]</code>
+                        <code>/ra blacklist [clear]</code>
                         <span class="text-textSecondary">View blacklist settings or clear the blacklist.</span>
                     </div>
                 </div>
@@ -156,35 +156,35 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na lostest</code>
+                        <code>/ra lostest</code>
                         <span class="text-textSecondary">Runs line-of-sight test diagnostics against current target.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na raycast</code>
+                        <code>/ra raycast</code>
                         <span class="text-textSecondary">Shows raycast system initialization status.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na probe</code>
+                        <code>/ra probe</code>
                         <span class="text-textSecondary">Displays CombatActionHelper pattern scan status.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na testattack</code>
+                        <code>/ra testattack</code>
                         <span class="text-textSecondary">Sends a single melee attack to current selection (combat disabled).</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na spelldump &lt;keyword&gt;</code>
+                        <code>/ra spelldump &lt;keyword&gt;</code>
                         <span class="text-textSecondary">Searches spell database for spells matching a keyword.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na bufftest &lt;spell&gt;</code>
+                        <code>/ra bufftest &lt;spell&gt;</code>
                         <span class="text-textSecondary">Traces the complete buff lookup path for a spell name.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na debugbuffs | db</code>
+                        <code>/ra debugbuffs | db</code>
                         <span class="text-textSecondary">Prints active buff tracking debug info.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na debugnav | dn</code>
+                        <code>/ra debugnav | dn</code>
                         <span class="text-textSecondary">Toggles navigation system debug output.</span>
                     </div>
                 </div>
@@ -197,19 +197,19 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na meta load &lt;file&gt;</code>
+                        <code>/ra meta load &lt;file&gt;</code>
                         <span class="text-textSecondary">Loads a VTank-compatible <code>.met</code> meta profile.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na setmetastate &lt;state&gt;</code>
+                        <code>/ra setmetastate &lt;state&gt;</code>
                         <span class="text-textSecondary">Forces meta engine to transition to a specific named state.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na watchdog | wd</code>
+                        <code>/ra watchdog | wd</code>
                         <span class="text-textSecondary">Prints the status of the active state watchdog timer.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na fakedeath</code>
+                        <code>/ra fakedeath</code>
                         <span class="text-textSecondary">Simulates a character death event for testing recovery logic.</span>
                     </div>
                 </div>
@@ -222,31 +222,31 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na fellow status</code>
+                        <code>/ra fellow status</code>
                         <span class="text-textSecondary">Shows detailed fellowship info, member list, and roles.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na fellow leader</code>
+                        <code>/ra fellow leader</code>
                         <span class="text-textSecondary">Displays current fellowship leader name and ID.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na fellow count</code>
+                        <code>/ra fellow count</code>
                         <span class="text-textSecondary">Shows total number of fellowship members.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na fellow names</code>
+                        <code>/ra fellow names</code>
                         <span class="text-textSecondary">Lists all fellowship member names.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na fellow ismember &lt;name&gt;</code>
+                        <code>/ra fellow ismember &lt;name&gt;</code>
                         <span class="text-textSecondary">Checks if a specific player is in the fellowship.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na fellow [open|locked|sharexp|name]</code>
+                        <code>/ra fellow [open|locked|sharexp|name]</code>
                         <span class="text-textSecondary">Queries various fellowship properties.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na corpsedebug</code>
+                        <code>/ra corpsedebug</code>
                         <span class="text-textSecondary">Shows detailed ownership and killer info for selected corpse.</span>
                     </div>
                 </div>
@@ -259,11 +259,11 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na loot load &lt;file&gt;</code>
+                        <code>/ra loot load &lt;file&gt;</code>
                         <span class="text-textSecondary">Loads a VTank-compatible <code>.utl</code> loot profile.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na opt set enablelooting &lt;true|false&gt;</code>
+                        <code>/ra opt set enablelooting &lt;true|false&gt;</code>
                         <span class="text-textSecondary">Enables or disables the looting subsystem.</span>
                     </div>
                 </div>
@@ -276,15 +276,15 @@
                 </h2>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/na settings save</code>
+                        <code>/ra settings save</code>
                         <span class="text-textSecondary">Saves current settings to disk.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na opt set &lt;option&gt; &lt;value&gt;</code>
+                        <code>/ra opt set &lt;option&gt; &lt;value&gt;</code>
                         <span class="text-textSecondary">Sets configuration options (enablecombat, enablenav, etc).</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na echo &lt;text&gt;</code>
+                        <code>/ra echo &lt;text&gt;</code>
                         <span class="text-textSecondary">Echoes text to chat for debugging or notifications.</span>
                     </div>
                 </div>
@@ -301,11 +301,11 @@
                         <span class="text-textSecondary">Executes a raw Lua string through the embedded engine.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na lua &lt;script&gt;</code>
+                        <code>/ra lua &lt;script&gt;</code>
                         <span class="text-textSecondary">Alternative syntax for executing Lua scripts.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/na mexec &lt;expression&gt;</code>
+                        <code>/ra mexec &lt;expression&gt;</code>
                         <span class="text-textSecondary">Executes a VTank/UB mexec expression.</span>
                     </div>
                 </div>
