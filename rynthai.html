@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RynthAi - Advanced Plugin Documentation</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#26C1A6',
+                        accent: '#E2B348',
+                        dark: '#0B1218',
+                        panel: '#132028',
+                        muted: '#0F161D',
+                        border: '#243742',
+                        textPrimary: '#EAF0F4',
+                        textSecondary: '#9AA8B3',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0B1218; color: #EAF0F4; font-family: 'Inter', sans-serif; }
+        .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0); background-size: 40px 40px; }
+        .text-gradient { background: linear-gradient(to right, #26C1A6, #E2B348); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-glass { background: rgba(11, 18, 24, 0.85); backdrop-filter: blur(12px); }
+        .feature-card { background: #132028; border: 1px solid #243742; transition: all 0.3s ease; }
+        .feature-card:hover { border-color: #26C1A6; transform: translateY(-4px); box-shadow: 0 10px 30px -10px rgba(38, 193, 166, 0.2); }
+    </style>
+</head>
+<body class="antialiased bg-grid">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 nav-glass border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-4 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-microchip text-dark text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter">RYNTHCORE</span>
+                </a>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Home</a>
+                        <a href="command-line.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Commands</a>
+                        <a href="rynthai.html" class="text-sm font-medium text-primary uppercase tracking-widest border-b-2 border-primary">RynthAi</a>
+                        <a href="expressions.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Expressions</a>
+                        <a href="releases.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Releases</a>
+                        <a href="readme.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Readme</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="pt-40 pb-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-6 leading-none">
+                <span class="text-gradient">RYNTHAI</span> ENGINE
+            </h1>
+            <p class="text-2xl text-textSecondary max-w-3xl font-medium leading-relaxed mb-12">
+                A high-performance intelligence suite for Asheron's Call, featuring advanced raycasting, state-based automation, and embedded Lua scripting.
+            </p>
+        </div>
+    </section>
+
+    <!-- Core Subsystems -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Raycasting & LOS -->
+                <div class="feature-card p-10 rounded-3xl">
+                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fa-solid fa-eye text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Geometry Aware LOS</h3>
+                    <p class="text-textSecondary leading-relaxed">
+                        Beyond simple coordinate checks. RynthAi parses <code>cell.dat</code> Environment files to build a 3D mesh of dungeon walls and world geometry, providing true Line-of-Sight verification for targeting and movement.
+                    </p>
+                </div>
+
+                <!-- Combat Manager -->
+                <div class="feature-card p-10 rounded-3xl">
+                    <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fa-solid fa-gun text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Multi-Mode Combat</h3>
+                    <p class="text-textSecondary leading-relaxed">
+                        Seamlessly switch between Melee, Missile, and Magic. Includes intelligent weakness detection (e.g. Olthoi vs Cold), automated debuff rotations, and missile bundle crafting.
+                    </p>
+                </div>
+
+                <!-- Meta System -->
+                <div class="feature-card p-10 rounded-3xl">
+                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fa-solid fa-diagram-project text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Meta Manager</h3>
+                    <p class="text-textSecondary leading-relaxed">
+                        The brain of the macro. Supports complex state machines with watchdog timers, state stacking (Call/Return), and native expression evaluation for ultra-precise automation triggers.
+                    </p>
+                </div>
+
+                <!-- Navigation -->
+                <div class="feature-card p-10 rounded-3xl">
+                    <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fa-solid fa-map-location-dot text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Tiered Navigation</h3>
+                    <p class="text-textSecondary leading-relaxed">
+                        Supports legacy <code>SetAutorun</code>, Tier 1 direct <code>CM_Movement</code> calls, and a planned Tier 2 <code>MoveToPosition</code> system for high-fidelity path following.
+                    </p>
+                </div>
+
+                <!-- Lua Integration -->
+                <div class="feature-card p-10 rounded-3xl">
+                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fa-solid fa-code text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Lua Bridge</h3>
+                    <p class="text-textSecondary leading-relaxed">
+                        Extend RynthAi with standard Lua. Access player coordinates, world objects, and navigation functions through an embedded script engine for custom, per-character logic.
+                    </p>
+                </div>
+
+                <!-- Loot Manager -->
+                <div class="feature-card p-10 rounded-3xl">
+                    <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-8">
+                        <i class="fa-solid fa-sack-dollar text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Smart Looting</h3>
+                    <p class="text-textSecondary leading-relaxed">
+                        Advanced property-based filtering with support for VTank <code>.utl</code> profiles. Includes auto-stacking, auto-cramming, and intelligent salvage combining to keep your packs clean.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Dive Sections -->
+    <section class="py-20 bg-muted border-y border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-20 text-center">
+                <h2 class="text-4xl font-black mb-4">Technical Architecture</h2>
+                <p class="text-textSecondary">Inside the RynthAi plugin stack</p>
+            </div>
+
+            <div class="space-y-32">
+                <!-- Raycasting Details -->
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-6">Dungeon Pathfinding & LOS</h3>
+                        <p class="text-textSecondary mb-6 leading-relaxed">
+                            RynthAi features a custom binary parser for AC <code>cell.dat</code> files. It extracts <code>CellStruct</code> data, transforms polygon vertices based on landblock positions, and generates <code>BoundingVolume</code> meshes for real-time raycasting.
+                        </p>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <i class="fa-solid fa-microchip text-primary mt-1"></i>
+                                <span><strong>CVertexArray Processing:</strong> Raw binary parsing of SWVertex and Type-1 vertex arrays.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <i class="fa-solid fa-microchip text-primary mt-1"></i>
+                                <span><strong>Environmental Geometry:</strong> Support for 0x0Dxxxx EnvironmentId structures and portals.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <i class="fa-solid fa-microchip text-primary mt-1"></i>
+                                <span><strong>Scatter System:</strong> High-performance spatial indexing for 100+ concurrent geometry checks.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-panel border border-border p-8 rounded-2xl font-mono text-xs overflow-hidden shadow-inner">
+                        <div class="flex gap-2 mb-4 border-b border-border pb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-textSecondary uppercase tracking-widest">RaycastEngine.cs</span>
+                        </div>
+                        <div class="text-primary">// Bin Parser Excerpt</div>
+                        <div class="text-textSecondary">struct SWVertex {</div>
+                        <div class="pl-4">ushort numUVs;</div>
+                        <div class="pl-4">float3 Origin;</div>
+                        <div class="pl-4 text-accent">float3 Normal; // Used for LOS normals</div>
+                        <div class="pl-4">Vec2Duv[numUVs] uv;</div>
+                        <div class="text-textSecondary">}</div>
+                        <div class="mt-4 text-primary">public bool IsTargetBlocked(uint landblock) {</div>
+                        <div class="pl-4">var walls = _dungeonParser.GetWalls(landblock);</div>
+                        <div class="pl-4">return RayIntersect(walls, playerPos, targetPos);</div>
+                        <div class="text-primary">}</div>
+                    </div>
+                </div>
+
+                <!-- Combat Manager Details -->
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 lg:order-1 bg-panel border border-border p-8 rounded-2xl font-mono text-xs shadow-inner">
+                        <div class="flex gap-2 mb-4 border-b border-border pb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-textSecondary uppercase tracking-widest">CombatManager.cs</span>
+                        </div>
+                        <div class="text-primary">// Weakness Detection Logic</div>
+                        <div class="text-textSecondary">private Dictionary&lt;string, string&gt; Weaknesses = {</div>
+                        <div class="pl-4">"Olthoi": "Cold",</div>
+                        <div class="pl-4">"Tusker": "Fire",</div>
+                        <div class="pl-4">"Lugian": "Lightning"</div>
+                        <div class="text-textSecondary">};</div>
+                        <div class="mt-4 text-accent">// Native Attack Call via CombatActionHelper</div>
+                        <div class="text-primary">CombatActionHelper.MeleeAttack(uint targetId, height, power);</div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <h3 class="text-3xl font-bold mb-6">Advanced Target Logic</h3>
+                        <p class="text-textSecondary mb-6 leading-relaxed">
+                            The Combat Manager doesn't just click targets; it orchestrates a full battle sequence. It tracks debuff confirmations via chat logs to prevent re-casting and uses a <code>TargetingFSM</code> to handle switching between targets efficiently.
+                        </p>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <i class="fa-solid fa-microchip text-accent mt-1"></i>
+                                <span><strong>Blacklist Management:</strong> Automatic blacklisting of unreachable or LOS-blocked mobs (5s vs 20s timeouts).</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <i class="fa-solid fa-microchip text-accent mt-1"></i>
+                                <span><strong>Buff Synchronization:</strong> Real-time tracking of enchantments with support for <code>Incantation of X Self</code> lookups.</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <i class="fa-solid fa-microchip text-accent mt-1"></i>
+                                <span><strong>Stance Control:</strong> Automated peace/combat state switching based on proximity and idle timers.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-16 border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center gap-3 mb-8">
+                <div class="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+                    <i class="fa-solid fa-microchip text-dark text-sm"></i>
+                </div>
+                <span class="font-black text-xl tracking-tighter uppercase">RynthAi Intelligence Suite</span>
+            </div>
+            <p class="text-textSecondary text-xs uppercase tracking-widest">
+                Built for the next generation of Asheron's Call Modding.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

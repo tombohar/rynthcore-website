@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Releases - RynthCore & RynthSuite</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#26C1A6',
+                        dark: '#0B1218',
+                        panel: '#132028',
+                        border: '#243742',
+                        textPrimary: '#EAF0F4',
+                        textSecondary: '#9AA8B3',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0B1218; color: #EAF0F4; font-family: 'Inter', sans-serif; }
+        .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0); background-size: 40px 40px; }
+        .release-card { background: #132028; border: 1px solid #243742; border-radius: 12px; padding: 2rem; transition: all 0.3s ease; }
+        .release-card:hover { border-color: #26C1A6; box-shadow: 0 10px 30px -10px rgba(38, 193, 166, 0.2); }
+        .tag { background: #26C1A6; color: #0B1218; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
+        .asset { background: #0f161d; border-left: 3px solid #26C1A6; padding: 1rem; margin: 0.5rem 0; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased bg-grid">
+    <nav class="fixed w-full z-50 top-0 bg-dark/80 backdrop-blur-md border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-4 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-microchip text-dark text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter">RYNTHCORE</span>
+                </a>
+                <div class="flex gap-8">
+                    <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Home</a>
+                    <a href="command-line.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Commands</a>
+                    <a href="rynthai.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">RynthAi</a>
+                    <a href="expressions.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Expressions</a>
+                    <a href="releases.html" class="text-sm font-medium text-primary uppercase tracking-widest">Releases</a>
+                    <a href="readme.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Readme</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-5xl font-black mb-4 tracking-tighter">RELEASES</h1>
+        <p class="text-xl text-textSecondary mb-12">Download the latest versions of RynthCore and RynthSuite directly from GitHub.</p>
+
+        <!-- RynthCore Section -->
+        <section class="mb-20">
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-3xl font-bold text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-microchip"></i> RynthCore
+                    </h2>
+                    <a href="https://github.com/tombohar/RynthCore/releases" target="_blank" class="px-6 py-2 bg-primary hover:bg-primary/80 text-dark rounded-lg font-bold text-sm transition-colors flex items-center gap-2">
+                        <i class="fa-brands fa-github"></i> View on GitHub
+                    </a>
+                </div>
+                <p class="text-textSecondary mb-6">The core x86 NativeAOT injection framework and launcher for Asheron's Call modding.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- v0.3 Release -->
+                <div class="release-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">RynthCore v0.3</h3>
+                            <span class="tag">Latest Release</span>
+                        </div>
+                        <div class="text-right text-textSecondary text-sm">
+                            <div>Released Apr 18, 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 text-textSecondary">
+                        <h4 class="font-bold text-textPrimary mb-3">Installation:</h4>
+                        <ol class="space-y-2 ml-4 list-decimal">
+                            <li>Download <strong>RynthCore-Setup.exe</strong> below and run it</li>
+                            <li>Start Asheron's Call and log in to your character</li>
+                            <li>Open <strong>RynthCore</strong> from the Start Menu or Desktop shortcut</li>
+                            <li>Click <strong>Inject Running AC</strong> in the launcher</li>
+                            <li>The RynthAi panel will appear inside the AC window</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-6 text-textSecondary">
+                        <h4 class="font-bold text-textPrimary mb-3">First-time Setup:</h4>
+                        <ul class="space-y-2 ml-4 list-disc">
+                            <li>In the RynthCore launcher, set your <code>acclient.exe</code> path under <strong>Runtime Paths</strong> if prompted</li>
+                            <li>Plugins auto-load from <code>C:\Games\RynthCore\Runtime\Plugins\</code></li>
+                            <li>Loot, nav, and meta profiles go in <code>C:\Games\RynthSuite\RynthAi\</code></li>
+                            <li>Log file: <code>%USERPROFILE%\Desktop\RynthCore.log</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-textPrimary mb-3">Downloads:</h4>
+                        <div class="asset">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-download text-accent"></i>
+                                    <span><strong>RynthCore-Setup.exe</strong></span>
+                                </div>
+                                <span class="text-textSecondary text-sm">41.2 MB</span>
+                            </div>
+                            <p class="text-xs text-textSecondary mb-3">Windows installer for RynthCore with Avalonia launcher</p>
+                            <a href="https://github.com/tombohar/RynthCore/releases/download/v0.3/RynthCore-Setup.exe" class="inline-block px-4 py-2 bg-primary hover:bg-primary/80 text-dark rounded font-bold text-sm transition-colors">
+                                Download Setup
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RynthSuite Section -->
+        <section>
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-3xl font-bold text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-code"></i> RynthSuite
+                    </h2>
+                    <a href="https://github.com/tombohar/RynthSuite/releases" target="_blank" class="px-6 py-2 bg-primary hover:bg-primary/80 text-dark rounded-lg font-bold text-sm transition-colors flex items-center gap-2">
+                        <i class="fa-brands fa-github"></i> View on GitHub
+                    </a>
+                </div>
+                <p class="text-textSecondary mb-6">Plugins and tools for RynthCore-based Asheron's Call modding, including RynthAi, LootEditor, and MonsterEditor.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- v1.0 Release -->
+                <div class="release-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">RynthSuite v1.0</h3>
+                            <span class="tag">Latest Release</span>
+                        </div>
+                        <div class="text-right text-textSecondary text-sm">
+                            <div>Released Apr 18, 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 text-textSecondary">
+                        <h4 class="font-bold text-textPrimary mb-3">Package Contents:</h4>
+                        <ul class="space-y-2 ml-4 list-disc">
+                            <li><strong>RynthAi Plugin</strong> — Combat, navigation, buffing, and looting automation for AC</li>
+                            <li><strong>LootEditor</strong> — Visual tool for creating and editing VTank-compatible loot profiles</li>
+                            <li><strong>MonsterEditor</strong> — Database and management tool for creature AI and loot tables</li>
+                            <li>Full source code and pre-compiled binaries</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-textPrimary mb-3">Downloads:</h4>
+                        <div class="asset">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-download text-accent"></i>
+                                    <span><strong>RynthCore.LootEditor.zip</strong></span>
+                                </div>
+                                <span class="text-textSecondary text-sm">~45 MB</span>
+                            </div>
+                            <p class="text-xs text-textSecondary mb-3">Loot profile editor application</p>
+                            <a href="https://github.com/tombohar/RynthSuite/releases" class="inline-block px-4 py-2 bg-primary hover:bg-primary/80 text-dark rounded font-bold text-sm transition-colors">
+                                Download from Release
+                            </a>
+                        </div>
+                        <div class="asset">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-download text-accent"></i>
+                                    <span><strong>RynthCore.MonsterEditor.zip</strong></span>
+                                </div>
+                                <span class="text-textSecondary text-sm">~38 MB</span>
+                            </div>
+                            <p class="text-xs text-textSecondary mb-3">Monster and creature database editor</p>
+                            <a href="https://github.com/tombohar/RynthSuite/releases" class="inline-block px-4 py-2 bg-primary hover:bg-primary/80 text-dark rounded font-bold text-sm transition-colors">
+                                Download from Release
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Requirements -->
+        <section class="mt-20">
+            <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                <i class="fa-solid fa-server"></i> System Requirements
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-panel border border-border rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-accent mb-4">RynthCore</h3>
+                    <ul class="space-y-2 text-textSecondary text-sm">
+                        <li><strong>OS:</strong> Windows 10/11 (x86/x64)</li>
+                        <li><strong>.NET:</strong> .NET 9 Runtime</li>
+                        <li><strong>AC Client:</strong> Latest Asheron's Call</li>
+                        <li><strong>RAM:</strong> 2GB minimum</li>
+                        <li><strong>Storage:</strong> 500MB free space</li>
+                    </ul>
+                </div>
+                <div class="bg-panel border border-border rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-accent mb-4">RynthSuite (Building)</h3>
+                    <ul class="space-y-2 text-textSecondary text-sm">
+                        <li><strong>OS:</strong> Windows 10/11</li>
+                        <li><strong>.NET SDK:</strong> .NET 9 SDK (x86)</li>
+                        <li><strong>IDE:</strong> Visual Studio 2022 (recommended)</li>
+                        <li><strong>Workloads:</strong> .NET desktop, C++ desktop</li>
+                        <li><strong>AC Path:</strong> Standard installation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Getting Help -->
+        <section class="mt-20">
+            <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                <i class="fa-solid fa-circle-question"></i> Getting Help
+            </h2>
+            <div class="bg-panel border border-border rounded-xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-bold text-accent mb-4">Documentation</h3>
+                        <ul class="space-y-2 text-textSecondary">
+                            <li><a href="command-line.html" class="hover:text-primary transition-colors">Command Reference</a></li>
+                            <li><a href="expressions.html" class="hover:text-primary transition-colors">Expression Syntax</a></li>
+                            <li><a href="rynthai.html" class="hover:text-primary transition-colors">RynthAi Features</a></li>
+                            <li><a href="readme.html" class="hover:text-primary transition-colors">Project README</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-accent mb-4">Resources</h3>
+                        <ul class="space-y-2 text-textSecondary">
+                            <li><a href="https://github.com/tombohar/RynthCore" target="_blank" class="hover:text-primary transition-colors">RynthCore on GitHub <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></a></li>
+                            <li><a href="https://github.com/tombohar/RynthSuite" target="_blank" class="hover:text-primary transition-colors">RynthSuite on GitHub <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></a></li>
+                            <li><a href="https://github.com/tombohar/RynthCore/issues" target="_blank" class="hover:text-primary transition-colors">Report Issues <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-dark py-12 border-t border-border mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthCore & RynthSuite Releases</p>
+        </div>
+    </footer>
+</body>
+</html>

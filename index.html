@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RynthCore - The Future of Asheron's Call Modding</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#26C1A6', // Teal
+                        primaryHover: '#1ea891',
+                        accent: '#E2B348', // Gold
+                        dark: '#0B1218', // Main BG
+                        panel: '#132028', // Section/Panel BG
+                        muted: '#0F161D', // Secondary/Deep BG
+                        border: '#243742', // Subtle borders
+                        textPrimary: '#EAF0F4', // Light blue-white
+                        textSecondary: '#9AA8B3', // Muted blue-grey
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0B1218;
+            color: #EAF0F4;
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #26C1A6, #E2B348);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-glass {
+            background: rgba(11, 18, 24, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .bg-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-dark bg-grid">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 nav-glass border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-4 group cursor-pointer">
+                    <!-- REVERTED TO INLINE FONT AWESOME VERSION -->
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-microchip text-dark text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter text-textPrimary group-hover:text-primary transition-colors uppercase">RynthCore</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-10">
+                        <a href="#about" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Host</a>
+                        <a href="rynthai.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">RynthAi</a>
+                        <a href="command-line.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Commands</a>
+                        <a href="expressions.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Expressions</a>
+                        <a href="releases.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Releases</a>
+                        <a href="readme.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Readme</a>
+                        <a href="#installation" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Setup</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="https://github.com/tombohar/RynthCore" target="_blank" class="text-textSecondary hover:text-primary transition-colors" title="GitHub">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-40 pb-24 lg:pt-60 lg:pb-40 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4"></div>
+            <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl">
+                <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-none">
+                    MODERN <br/>
+                    <span class="text-gradient">AC MODDING</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-textSecondary mb-12 leading-relaxed font-medium">
+                    RynthCore is an x86 NativeAOT in-process engine and plugin surface built for speed, safety, and modern UI integration.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <a href="#installation" class="px-10 py-5 bg-primary hover:bg-primaryHover text-dark rounded-xl font-black text-lg transition-all transform hover:-translate-y-1 shadow-2xl shadow-primary/20 text-center">
+                        GET STARTED
+                    </a>
+                    <a href="https://github.com/tombohar/RynthCore" target="_blank" class="px-10 py-5 bg-panel border border-border hover:border-primary text-textPrimary rounded-xl font-bold text-lg transition-all text-center">
+                        SOURCE CODE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RynthAi Section -->
+    <section id="rynthai" class="py-32 bg-muted relative overflow-hidden border-y border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-bold tracking-widest mb-6 uppercase">
+                        <i class="fa-solid fa-brain"></i> RynthAi Component
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-8 tracking-tight">Visualize Your <span class="text-accent">Tactics</span>.</h2>
+                    <p class="text-lg text-textSecondary mb-8 leading-relaxed">
+                        RynthAi brings advanced navigation awareness directly into the game client. Stop guessing where your path leads and see it rendered in high-performance ImGui overlays.
+                    </p>
+                    <ul class="space-y-6 mb-10">
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary mt-1">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-textPrimary">VTank Nav Integration</h4>
+                                <p class="text-sm text-textSecondary">Full support for parsing and rendering classic <code>.nav</code> profiles with modern precision.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary mt-1">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-textPrimary">Spatial HUD</h4>
+                                <p class="text-sm text-textSecondary">Renders waypoints, routes, and active targets as spatial markers in the game world.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary mt-1">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-textPrimary">NativeAOT Performance</h4>
+                                <p class="text-sm text-textSecondary">Zero-latency rendering that won't impact your frame rate, even in intense combat.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="bg-panel border border-border p-4 rounded-2xl shadow-3xl transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                        <!-- Simulated In-game UI -->
+                        <div class="bg-dark rounded-xl overflow-hidden aspect-video relative flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
+                            <div class="z-10 text-center">
+                                <i class="fa-solid fa-route text-6xl text-primary mb-4 opacity-50"></i>
+                                <div class="space-y-2">
+                                    <div class="w-48 h-2 bg-border rounded-full mx-auto">
+                                        <div class="w-3/4 h-full bg-primary rounded-full"></div>
+                                    </div>
+                                    <span class="text-xs font-mono text-textSecondary uppercase tracking-widest">RynthAi :: Routing_Active</span>
+                                </div>
+                            </div>
+                            <!-- Mock HUD Elements -->
+                            <div class="absolute bottom-6 left-6 flex gap-4">
+                                <div class="w-12 h-12 rounded bg-border/20 border border-primary/40"></div>
+                                <div class="w-12 h-12 rounded bg-border/20 border border-primary/40"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Host Features Section -->
+    <section id="about" class="py-32 bg-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-20">
+                <h2 class="text-4xl font-black mb-4 uppercase tracking-tighter">The RynthCore Platform</h2>
+                <div class="w-24 h-2 bg-primary"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-panel p-10 rounded-2xl border border-border hover:border-primary/50 transition-all group">
+                    <i class="fa-solid fa-bolt-lightning text-4xl text-primary mb-8 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold mb-4">NativeAOT Engine</h3>
+                    <p class="text-textSecondary leading-relaxed">High-performance x86 runtime injected directly into the client for ultra-low latency modding.</p>
+                </div>
+                <div class="bg-panel p-10 rounded-2xl border border-border hover:border-primary/50 transition-all group">
+                    <i class="fa-solid fa-window-restore text-4xl text-accent mb-8 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold mb-4">Avalonia Launcher</h3>
+                    <p class="text-textSecondary leading-relaxed">Modern, GPU-accelerated desktop host for managing server profiles, accounts, and session recovery.</p>
+                </div>
+                <div class="bg-panel p-10 rounded-2xl border border-border hover:border-primary/50 transition-all group">
+                    <i class="fa-solid fa-puzzle-piece text-4xl text-primary mb-8 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold mb-4">Plugin Surface</h3>
+                    <p class="text-textSecondary leading-relaxed">Rich API hooks for chat, combat, targeting, and world objects, making plugin development easier than ever.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="py-32 bg-muted border-y border-border">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-panel rounded-3xl border border-border overflow-hidden shadow-2xl">
+                <div class="p-8 md:p-16">
+                    <h2 class="text-4xl font-black mb-12 text-center uppercase tracking-tighter">Ready for Extraction?</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-12">
+                            <div class="flex gap-6">
+                                <div class="w-12 h-12 bg-dark border border-border rounded-xl flex items-center justify-center font-black text-primary text-xl shadow-inner">1</div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Deploy Runtime</h4>
+                                    <p class="text-textSecondary">Run <code>Deploy-RynthCore.ps1</code> to generate the standard folder structure under <code>C:\Games\RynthCore</code>.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6">
+                                <div class="w-12 h-12 bg-dark border border-border rounded-xl flex items-center justify-center font-black text-primary text-xl shadow-inner">2</div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Inject</h4>
+                                    <p class="text-textSecondary">Use the Avalonia launcher to target <code>acclient.exe</code> and inject the high-performance engine.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-dark rounded-2xl p-8 border border-border font-mono text-sm space-y-4">
+                            <div class="flex justify-between items-center pb-4 border-b border-border mb-4">
+                                <span class="text-textSecondary">Release v0.1.0-alpha</span>
+                                <span class="text-primary">LATEST</span>
+                            </div>
+                            <div class="text-primary">$ dotnet publish .\src\RynthCore.App</div>
+                            <div class="text-textSecondary">Optimizing for win-x86...</div>
+                            <div class="text-accent">Success: RynthCore.Engine.dll built</div>
+                            <div class="pt-6">
+                                <a href="https://github.com/tombohar/RynthCore" target="_blank" class="block w-full py-4 bg-primary text-dark font-black text-center rounded-lg hover:bg-primaryHover transition-colors">
+                                    DOWNLOAD BUNDLE
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-16 border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="flex items-center gap-4 group">
+                <!-- REVERTED TO INLINE FONT AWESOME VERSION -->
+                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-microchip text-dark text-xl"></i>
+                </div>
+                <span class="font-black text-2xl tracking-tighter text-textPrimary uppercase">RynthCore</span>
+            </div>
+            
+            <div class="text-center max-w-sm">
+                <p class="text-textSecondary text-xs uppercase tracking-widest mb-2">
+                    Independent modding host. Not affiliated with Turbine or WB Games.
+                </p>
+                <p class="text-textSecondary/50 text-[10px] uppercase">
+                    Asheron's Call is a trademark of WB Games.
+                </p>
+            </div>
+
+            <div class="flex space-x-8">
+                <a href="#" class="text-textSecondary hover:text-primary transition-colors" title="Discord">
+                    <i class="fa-brands fa-discord text-2xl"></i>
+                </a>
+                <a href="https://github.com/tombohar/RynthCore" target="_blank" class="text-textSecondary hover:text-primary transition-colors" title="GitHub">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

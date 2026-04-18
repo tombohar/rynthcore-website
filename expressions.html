@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressions - RynthAi Documentation</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#26C1A6',
+                        dark: '#0B1218',
+                        panel: '#132028',
+                        border: '#243742',
+                        textPrimary: '#EAF0F4',
+                        textSecondary: '#9AA8B3',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0B1218; color: #EAF0F4; font-family: 'Inter', sans-serif; }
+        .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0); background-size: 40px 40px; }
+        code { background: #1a2e38; padding: 0.2rem 0.4rem; border-radius: 4px; color: #26C1A6; font-family: monospace; }
+        .expr-block { background: #0f161d; border-left: 4px solid #26C1A6; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
+        .var-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+        .var-card { background: #0f161d; border: 1px solid #243742; padding: 1rem; border-radius: 8px; transition: all 0.2s; }
+        .var-card:hover { border-color: #26C1A6; box-shadow: 0 4px 12px rgba(38, 193, 166, 0.1); }
+        .var-name { color: #26C1A6; font-weight: bold; font-family: monospace; font-size: 0.95rem; }
+        .var-type { color: #E2B348; font-size: 0.8rem; margin-top: 0.25rem; }
+        .var-desc { color: #9AA8B3; font-size: 0.85rem; margin-top: 0.5rem; }
+    </style>
+</head>
+<body class="antialiased bg-grid">
+    <nav class="fixed w-full z-50 top-0 bg-dark/80 backdrop-blur-md border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-4 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-microchip text-dark text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter">RYNTHCORE</span>
+                </a>
+                <div class="flex gap-8">
+                    <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Home</a>
+                    <a href="command-line.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Commands</a>
+                    <a href="rynthai.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">RynthAi</a>
+                    <a href="expressions.html" class="text-sm font-medium text-primary uppercase tracking-widest">Expressions</a>
+                    <a href="releases.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Releases</a>
+                    <a href="readme.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Readme</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-5xl font-black mb-4 tracking-tighter">EXPRESSIONS</h1>
+        <p class="text-xl text-textSecondary mb-12">Complete reference for Asheron's Call expression variables. Use bracketed syntax in meta conditions, loot filters, and chat actions.</p>
+
+        <div class="space-y-16">
+            <!-- Syntax Overview -->
+            <section>
+                <h2 class="text-3xl font-bold mb-6 tracking-tight">Syntax Overview</h2>
+                <p class="text-textSecondary mb-6 leading-relaxed">
+                    RynthAi expressions use a familiar bracketed syntax to query game state. Variables are wrapped in square brackets <code>[like this]</code> and can be combined with operators and logic.
+                </p>
+                <div class="expr-block">
+                    <p class="text-sm text-textSecondary mb-2 font-bold uppercase tracking-widest">Condition Example</p>
+                    <code class="text-base">[SlotCount] < 5 && [Burden] > 80</code>
+                    <p class="text-xs text-textSecondary mt-2">Triggers when fewer than 5 slots AND burden exceeds 80%.</p>
+                </div>
+                <div class="expr-block">
+                    <p class="text-sm text-textSecondary mb-2 font-bold uppercase tracking-widest">Chat Action Example</p>
+                    <code class="text-base">/g Help! My burden is [Burden]% and I only have [SlotCount] slots!</code>
+                    <p class="text-xs text-textSecondary mt-2">Broadcasts dynamic values to group chat.</p>
+                </div>
+            </section>
+
+            <!-- Vital Statistics -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-heart"></i> Vital Statistics
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[Health]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Current health percentage</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[HealthCurrent]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Current health points (absolute)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[HealthMax]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Maximum health points</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Mana]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Current mana percentage</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ManaCurrent]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Current mana points (absolute)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ManaMax]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Maximum mana points</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Stamina]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Current stamina percentage</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[StaminaCurrent]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Current stamina points (absolute)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[StaminaMax]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Maximum stamina points</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inventory & Burden -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-bag"></i> Inventory & Burden
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[SlotCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Number of free inventory slots</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Burden]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Burden as percentage of max capacity</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[BurdenCurrent]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Current burden in absolute units</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[BurdenMax]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Maximum burden capacity</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ItemCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Total items in inventory</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[VialCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Count of mana vials in inventory</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Character Attributes -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-person"></i> Character Attributes
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[Name]</div>
+                        <div class="var-type">String</div>
+                        <div class="var-desc">Your character name</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Level]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Current character level</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Experience]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Total experience points</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ExperienceLeft]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Experience needed for next level</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Sex]</div>
+                        <div class="var-type">String</div>
+                        <div class="var-desc">Character gender (Male/Female)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Race]</div>
+                        <div class="var-type">String</div>
+                        <div class="var-desc">Character race</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Age]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Character age in years</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[NumCharacterDeaths]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Total character deaths</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills & Attributes -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-dumbbell"></i> Skills & Attributes
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[Strength]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Strength attribute value</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Endurance]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Endurance attribute value</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Coordination]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Coordination attribute value</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Quickness]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Quickness attribute value</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Focus]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Focus attribute value</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Self]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Self attribute value</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[MeleeDefense]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Melee defense skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[MissileDefense]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Missile defense skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[MagicDefense]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Magic defense skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[MeleeAttack]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Melee attack skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[MissileAttack]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Missile attack skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ManaConversion]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Mana conversion skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[SpellAttack]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Spell attack skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[CreatureEnchantment]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Creature enchantment skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ItemEnchantment]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Item enchantment skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[LifeMagic]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Life magic skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[WarMagic]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">War magic skill</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[VoidMagic]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Void magic skill</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Combat & Targeting -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved"></i> Combat & Targeting
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[AttackerCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Creatures currently attacking you</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[CurrentTarget]</div>
+                        <div class="var-type">ID (Integer)</div>
+                        <div class="var-desc">Object ID of current target</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[TargetName]</div>
+                        <div class="var-type">String</div>
+                        <div class="var-desc">Name of current target</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[TargetHealth]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Target health percentage</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[TargetDistance]</div>
+                        <div class="var-type">Float</div>
+                        <div class="var-desc">Distance to current target in meters</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[PlayerInCombat]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether in combat stance</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[TargetExists]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether a target is selected</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[TargetDead]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether target is dead</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Location & Navigation -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-map"></i> Location & Navigation
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[LocationNS]</div>
+                        <div class="var-type">Float</div>
+                        <div class="var-desc">North-South coordinate (Y)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[LocationEW]</div>
+                        <div class="var-type">Float</div>
+                        <div class="var-desc">East-West coordinate (X)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[LocationZ]</div>
+                        <div class="var-type">Float</div>
+                        <div class="var-desc">Vertical coordinate (Z)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Heading]</div>
+                        <div class="var-type">Float (0-360)</div>
+                        <div class="var-desc">Current facing direction</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Landblock]</div>
+                        <div class="var-type">Hex (Integer)</div>
+                        <div class="var-desc">Current landblock ID</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[NavRunning]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether navigation is active</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[NavWaypoint]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Current waypoint index</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Buffs & Spells -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-sparkles"></i> Buffs & Spells
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[AbsorbMagic]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Magic absorption percentage</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ArcaneHarm]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Arcane harm protection level</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[CriticalStrike]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Critical strike chance percentage</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[DamageReduction]</div>
+                        <div class="var-type">Integer (0-100)</div>
+                        <div class="var-desc">Damage reduction percentage</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[RegenerationRate]</div>
+                        <div class="var-type">Float</div>
+                        <div class="var-desc">Health regeneration per tick</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[HasBuff]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether specific buff is active (with name)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[BuffDuration]</div>
+                        <div class="var-type">Float</div>
+                        <div class="var-desc">Remaining duration of buff in seconds</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Status & States -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-circle-status"></i> Status & States
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[Dead]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether character is dead</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Rested]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether rested buff is active</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Poisoned]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether currently poisoned</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Cursed]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether under a curse</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Silenced]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether silenced (cannot cast)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[Encumbered]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether movement is encumbered</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[IsClimbing]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether currently climbing</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[IsSwimming]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether currently swimming</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[IsJumping]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether currently jumping</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fellowship & Groups -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-users"></i> Fellowship & Groups
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[InFellowship]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether in a fellowship</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[FellowshipName]</div>
+                        <div class="var-type">String</div>
+                        <div class="var-desc">Name of current fellowship</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[FellowshipCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Number of fellowship members</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[FellowLeader]</div>
+                        <div class="var-type">String</div>
+                        <div class="var-desc">Fellowship leader name</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[IsFellowLeader]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether you are the leader</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[FellowshipOpen]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether fellowship accepts recruits</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[FellowshipLocked]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether fellowship is locked</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[FellowshipShareXP]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether XP sharing is enabled</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Objects & Corpses -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-cube"></i> Objects & Corpses
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[NearestCorpse]</div>
+                        <div class="var-type">ID (Integer)</div>
+                        <div class="var-desc">ID of nearest corpse</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[NearestCorpseDistance]</div>
+                        <div class="var-type">Float</div>
+                        <div class="var-desc">Distance to nearest corpse</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[NearestCreature]</div>
+                        <div class="var-type">ID (Integer)</div>
+                        <div class="var-desc">ID of nearest creature</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[ObjectCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Number of objects in view</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[CreatureCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Number of creatures in view</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[CorpseCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Number of corpses in view</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Time & Game State -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-clock"></i> Time & Game State
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[ServerTime]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Server time in seconds since epoch</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[GameTime]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">In-game time of day (0-2880 minutes)</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[FPS]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Current frames per second</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[GameState]</div>
+                        <div class="var-type">String</div>
+                        <div class="var-desc">Current game state</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[IsAllegianceOpen]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether allegiance panel is open</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[IsLoggedIn]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether logged into AC</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loot & Items -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-coins"></i> Loot & Items
+                </h2>
+                <div class="var-grid">
+                    <div class="var-card">
+                        <div class="var-name">[CoinValue]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Total pyreals in inventory</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[OpenCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Open container count</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[LootedCount]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Items looted in session</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[SellValue]</div>
+                        <div class="var-type">Integer</div>
+                        <div class="var-desc">Estimated vendor value of inventory</div>
+                    </div>
+                    <div class="var-card">
+                        <div class="var-name">[HasItem]</div>
+                        <div class="var-type">Boolean (0/1)</div>
+                        <div class="var-desc">Whether inventory has specific item</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Operators & Logic -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-code"></i> Operators & Logic
+                </h2>
+                <div class="bg-panel border border-border rounded-xl p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h3 class="text-accent font-bold mb-3">Comparison</h3>
+                            <div class="space-y-2 text-sm text-textSecondary">
+                                <div><code>==</code> Equal to</div>
+                                <div><code>!=</code> Not equal</div>
+                                <div><code>&lt;</code> Less than</div>
+                                <div><code>&lt;=</code> Less or equal</div>
+                                <div><code>&gt;</code> Greater than</div>
+                                <div><code>&gt;=</code> Greater or equal</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-accent font-bold mb-3">Logical</h3>
+                            <div class="space-y-2 text-sm text-textSecondary">
+                                <div><code>&&</code> AND</div>
+                                <div><code>||</code> OR</div>
+                                <div><code>!</code> NOT</div>
+                                <div><code>( )</code> Grouping</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-accent font-bold mb-3">Arithmetic</h3>
+                            <div class="space-y-2 text-sm text-textSecondary">
+                                <div><code>+</code> Addition</div>
+                                <div><code>-</code> Subtraction</div>
+                                <div><code>*</code> Multiply</div>
+                                <div><code>/</code> Division</div>
+                                <div><code>%</code> Modulo</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Common Patterns -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-lightbulb"></i> Common Patterns & Recipes
+                </h2>
+                <div class="space-y-4">
+                    <div class="bg-panel border border-border rounded-xl p-6">
+                        <h3 class="text-lg font-bold mb-3">Inventory Management</h3>
+                        <div class="expr-block">
+                            <code>[SlotCount] < 5</code>
+                            <p class="text-xs text-textSecondary mt-2">Trigger when fewer than 5 free slots</p>
+                        </div>
+                        <div class="expr-block">
+                            <code>[Burden] > 90 && [SlotCount] < 3</code>
+                            <p class="text-xs text-textSecondary mt-2">Critically full inventory</p>
+                        </div>
+                    </div>
+                    <div class="bg-panel border border-border rounded-xl p-6">
+                        <h3 class="text-lg font-bold mb-3">Combat Triggers</h3>
+                        <div class="expr-block">
+                            <code>[Health] < 30</code>
+                            <p class="text-xs text-textSecondary mt-2">Low health - transition to healing</p>
+                        </div>
+                        <div class="expr-block">
+                            <code>[Health] < 50 || [Mana] < 20</code>
+                            <p class="text-xs text-textSecondary mt-2">Low on either vital</p>
+                        </div>
+                        <div class="expr-block">
+                            <code>[AttackerCount] > 2</code>
+                            <p class="text-xs text-textSecondary mt-2">Multiple enemies - switch to AOE mode</p>
+                        </div>
+                    </div>
+                    <div class="bg-panel border border-border rounded-xl p-6">
+                        <h3 class="text-lg font-bold mb-3">Dynamic Chat Messages</h3>
+                        <div class="expr-block">
+                            <code>/g Need help! [AttackerCount] enemies attacking and health [Health]%</code>
+                            <p class="text-xs text-textSecondary mt-2">Real-time combat status broadcast</p>
+                        </div>
+                        <div class="expr-block">
+                            <code>/t [FellowLeader], inventory full: [Burden]%</code>
+                            <p class="text-xs text-textSecondary mt-2">Report to fellowship leader</p>
+                        </div>
+                    </div>
+                    <div class="bg-panel border border-border rounded-xl p-6">
+                        <h3 class="text-lg font-bold mb-3">Advanced Conditions</h3>
+                        <div class="expr-block">
+                            <code>([Health] > 75 && [Mana] > 60) && ![Encumbered]</code>
+                            <p class="text-xs text-textSecondary mt-2">Ready for combat - healthy, mana full, not encumbered</p>
+                        </div>
+                        <div class="expr-block">
+                            <code>[TargetExists] && [TargetDistance] < 30 && ![TargetDead]</code>
+                            <p class="text-xs text-textSecondary mt-2">Valid combat target nearby</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tips & Notes -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-note-sticky"></i> Tips & Notes
+                </h2>
+                <div class="bg-panel border border-border rounded-xl p-8 space-y-6">
+                    <div>
+                        <h3 class="text-accent font-bold mb-2">Case Sensitivity</h3>
+                        <p class="text-textSecondary text-sm">Variable names must match exactly: <code>[Health]</code> works, <code>[health]</code> does not.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-accent font-bold mb-2">Whitespace is Flexible</h3>
+                        <p class="text-textSecondary text-sm">Spaces around operators are optional: <code>[Health]<30</code> and <code>[Health] < 30</code> are identical.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-accent font-bold mb-2">Boolean Values</h3>
+                        <p class="text-textSecondary text-sm">In conditions, 0 = false, any non-zero = true. Use explicitly with <code>== 0</code> or <code>!= 0</code>.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-accent font-bold mb-2">Type Coercion</h3>
+                        <p class="text-textSecondary text-sm">The engine automatically converts between types where sensible. Mixing strings and numbers works in most cases.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-accent font-bold mb-2">Performance Tip</h3>
+                        <p class="text-textSecondary text-sm">Simple comparisons are fast. Avoid deeply nested logic with many <code>||</code> branches in high-frequency checks.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-accent font-bold mb-2">Debugging</h3>
+                        <p class="text-textSecondary text-sm">Use chat actions to print variable values: <code>/t [Health] [Mana] [Burden]</code> to verify in-game state.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-dark py-12 border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthAi Expression Language - 80+ Variables</p>
+        </div>
+    </footer>
+</body>
+</html>

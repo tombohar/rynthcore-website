@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readme - RynthCore Documentation</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#26C1A6',
+                        dark: '#0B1218',
+                        panel: '#132028',
+                        border: '#243742',
+                        textPrimary: '#EAF0F4',
+                        textSecondary: '#9AA8B3',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0B1218; color: #EAF0F4; font-family: 'Inter', sans-serif; }
+        .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0); background-size: 40px 40px; }
+        code { background: #1a2e38; padding: 0.2rem 0.4rem; border-radius: 4px; color: #26C1A6; font-family: monospace; }
+        pre { background: #0f161d; padding: 1rem; border-radius: 8px; border: 1px solid #243742; overflow-x: auto; margin-bottom: 1.5rem; }
+        pre code { background: transparent; padding: 0; color: #EAF0F4; }
+        h1, h2, h3 { font-weight: 900; tracking: tight; }
+        h1 { font-size: 3rem; margin-bottom: 2rem; }
+        h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 1.5rem; color: #26C1A6; border-bottom: 1px solid #243742; padding-bottom: 0.5rem; }
+        h3 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+        p { margin-bottom: 1rem; line-height: 1.6; color: #9AA8B3; }
+        ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; color: #9AA8B3; }
+        li { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="antialiased bg-grid">
+    <nav class="fixed w-full z-50 top-0 bg-dark/80 backdrop-blur-md border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-4 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-microchip text-dark text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter">RYNTHCORE</span>
+                </a>
+                <div class="flex gap-8">
+                    <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Home</a>
+                    <a href="command-line.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Commands</a>
+                    <a href="rynthai.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">RynthAi</a>
+                    <a href="expressions.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Expressions</a>
+                    <a href="releases.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Releases</a>
+                    <a href="readme.html" class="text-sm font-medium text-primary uppercase tracking-widest">Readme</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section class="prose prose-invert max-w-none">
+            <h1>RynthCore</h1>
+            <p>RynthCore is a modern .NET 9 modding host for Asheron's Call. It combines an x86 NativeAOT in-process engine, an injector, a desktop launcher, and a plugin surface.</p>
+            <p>The project is currently focused on three things:</p>
+            <ul>
+                <li>launching and injecting the RynthCore engine into <code>acclient.exe</code></li>
+                <li>hosting in-game UI through an embedded overlay stack</li>
+                <li>building a RynthCore-native plugin API with hooks for chat, combat, targeting, movement, object, and UI events</li>
+            </ul>
+
+            <h2>Solution layout</h2>
+            <p>The repository currently ships these main projects:</p>
+            <ul>
+                <li><code>src/RynthCore.Engine</code> - x86 NativeAOT runtime injected into the game client</li>
+                <li><code>src/RynthCore.Injector</code> - process launch and DLL injection service</li>
+                <li><code>src/RynthCore.App</code> - Windows desktop launcher</li>
+                <li><code>src/RynthCore.App.Avalonia</code> - Avalonia launcher preview and profile manager</li>
+                <li><code>src/RynthCore.PluginSdk</code> - public host API surface for plugins</li>
+                <li><code>src/RynthCore.PluginCore</code> - runtime helpers for plugin bootstrap/lifecycle</li>
+                <li><code>Plugins/RynthCore.Plugin.HelloBox</code> - sample plugin used for end-to-end testing</li>
+            </ul>
+
+            <h2>Current capabilities</h2>
+            <ul>
+                <li>injects <code>RynthCore.Engine.dll</code> into the x86 Asheron's Call client</li>
+                <li>hosts overlay panels inside the game process</li>
+                <li>includes launcher/profile flows for servers, accounts, and saved launch targets</li>
+                <li>exposes a growing plugin host API for chat, target, combat, movement, object, and UI-related hooks</li>
+                <li>includes legal guardrails and hook planning docs</li>
+            </ul>
+
+            <h2>Prerequisites</h2>
+            <ul>
+                <li>Windows</li>
+                <li>.NET 9 SDK</li>
+                <li>Visual Studio 2022 with the .NET desktop and C++ desktop workloads</li>
+            </ul>
+            <p>The engine project targets <code>win-x86</code> and uses NativeAOT. A bundled <code>cimgui.dll</code> is included under <code>src/RynthCore.Engine/Native/</code>.</p>
+
+            <h2>Build</h2>
+            <p>From the repository root:</p>
+            <pre><code>$env:DOTNET_CLI_HOME = "$PWD\\.dotnet-home"
+$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = "1"
+dotnet build .\RynthCore.sln -c Release</code></pre>
+            <p>To publish the main runtime pieces individually:</p>
+            <pre><code>dotnet publish .\src\RynthCore.Engine\RynthCore.Engine.csproj -c Release
+dotnet publish .\src\RynthCore.App\RynthCore.App.csproj -c Release -r win-x86
+dotnet publish .\src\RynthCore.App.Avalonia\RynthCore.App.Avalonia.csproj -c Release</code></pre>
+            <p>For a clean local deployment, keep the launcher at the top level of <code>C:\Games\RynthCore</code> and place the injectable engine payload under <code>C:\Games\RynthCore\Runtime\</code>. The injector now resolves <code>Runtime\RynthCore.Engine.dll</code> by default, which keeps the game folder tidier while still allowing manual overrides.</p>
+            <p>You can produce that layout with:</p>
+            <pre><code>.\scripts\Deploy-RynthCore.ps1</code></pre>
+
+            <h2>Repository notes</h2>
+            <ul>
+                <li>local settings and machine-specific files are ignored through <code>.gitignore</code></li>
+                <li>generated <code>bin/</code>, <code>obj/</code>, <code>.vs/</code>, and <code>.dotnet-home/</code> content should not be committed</li>
+                <li>launcher data such as profiles and runtime state is expected to live outside the repository</li>
+                <li>compatibility planning and legal guardrails live in <code>docs/</code></li>
+            </ul>
+            <p>See:</p>
+            <ul>
+                <li><code>docs/ACCLIENT_HOOK_INVENTORY.md</code></li>
+                <li><code>docs/PLUGIN_HOOK_MATRIX.md</code></li>
+                <li><code>docs/LEGAL_COMPATIBILITY.md</code></li>
+            </ul>
+
+            <h2>Security and secrets</h2>
+            <p>This repository should not contain API keys, local secrets, or machine-specific credentials. If you add any local integrations later, keep them in ignored files such as <code>.env</code>, <code>appsettings.Local.json</code>, or other untracked local config.</p>
+
+            <h2>License</h2>
+            <p>This project is released under the MIT License. See <code>LICENSE</code>.</p>
+        </section>
+    </main>
+
+    <footer class="bg-dark py-12 border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthCore Documentation</p>
+        </div>
+    </footer>
+</body>
+</html>
