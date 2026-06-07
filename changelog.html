@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - RynthCore & RynthSuite</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#26C1A6',
+                        primaryHover: '#1ea891',
+                        accent: '#E2B348',
+                        dark: '#0B1218',
+                        panel: '#132028',
+                        muted: '#0F161D',
+                        border: '#243742',
+                        textPrimary: '#EAF0F4',
+                        textSecondary: '#9AA8B3',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0B1218; color: #EAF0F4; font-family: 'Inter', sans-serif; }
+        .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0); background-size: 40px 40px; }
+        .nav-glass { background: rgba(11, 18, 24, 0.85); backdrop-filter: blur(12px); }
+        code { background: #1a2e38; padding: 0.15rem 0.4rem; border-radius: 4px; color: #26C1A6; font-family: monospace; font-size: 0.85em; }
+        .timeline-line { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #26C1A6, #243742); }
+        .badge-engine   { background: rgba(38,193,166,0.15); color: #26C1A6; border: 1px solid rgba(38,193,166,0.3); }
+        .badge-plugin   { background: rgba(226,179,72,0.15); color: #E2B348; border: 1px solid rgba(226,179,72,0.3); }
+        .badge-fix      { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+        .badge-new      { background: rgba(167,243,208,0.12); color: #6ee7b7; border: 1px solid rgba(110,231,183,0.25); }
+        .badge { display: inline-block; padding: 0.1rem 0.55rem; border-radius: 20px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    </style>
+</head>
+<body class="antialiased bg-grid">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 nav-glass border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="flex items-center gap-4 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-microchip text-dark text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter">RYNTHCORE</span>
+                </a>
+                <div class="hidden md:flex gap-8">
+                    <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Home</a>
+                    <a href="rynthai.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">RynthAi</a>
+                    <a href="command-line.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Commands</a>
+                    <a href="expressions.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Expressions</a>
+                    <a href="changelog.html" class="text-sm font-medium text-primary uppercase tracking-widest border-b-2 border-primary">Changelog</a>
+                    <a href="releases.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Releases</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-5xl font-black mb-3 tracking-tighter">CHANGELOG</h1>
+        <p class="text-xl text-textSecondary mb-4">Release history for RynthCore (engine + launcher) and RynthSuite (plugins).</p>
+        <div class="flex flex-wrap gap-3 mb-16 text-xs">
+            <span class="badge badge-engine">Engine</span>
+            <span class="badge badge-plugin">Plugin / RynthAi</span>
+            <span class="badge badge-new">New Plugin</span>
+            <span class="badge badge-fix">Bug Fix</span>
+        </div>
+
+        <div class="relative pl-8 space-y-0">
+            <div class="timeline-line rounded-full"></div>
+
+            <!-- ═══════════════════════════════ v0.21 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.21</h2>
+                    <span class="text-textSecondary text-sm">Jun 7, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.21" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.21" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Per-client log file (<code>RynthCore.&lt;pid&gt;.log</code>) — each running AC client writes its own session log. Makes multi-box diagnostics viable.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Offline hang minidump — main-thread watchdog writes a <code>.dmp</code> on confirmed permanent wedge instead of relying on always-on procdump.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Offline symbolicate tool (<code>tools/symbolicate.py</code>) — rewrites <code>acclient.exe+0xRVA</code> frames in a log to function names.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Non-modal floating panel resize/move — eliminates the game-freeze, cursor lag, and hard crash (LFH heap corruption) that occurred when dragging panels.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Close-time AV — swallows mouse/cursor input after <code>WM_CLOSE</code> so AC's freed combat-system singleton is never read during teardown.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Custom D3D9 vital HUD — draws HP/Stamina/Mana bars directly via EndScene. Toggle with <code>/rc vitals</code>; drag/resize/persist.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Pattern-scan hardening — all 86 engine hook addresses now resolved by byte-signature scan at runtime. No hardcoded RVAs. Build-time self-check gate verifies every pattern against <code>acclient.exe</code>.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Attack-cast delay: new <code>AttackSpellIntervalMs</code> setting (default 1500 ms) spaces war/void combat casts to avoid "too busy" drops.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Loot speed: per-session regex cache (cap 2048) prevents recompile of 1600+ loot rules every match cycle; inter-corpse busy-leak watchdog cuts stall between corpses.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Meta UI: enable/disable/duplicate state buttons wired; NUL-byte rendering artifact fixed.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-new mt-0.5 shrink-0">New</span><span><strong>RynthJuice</strong> — floating in-world damage/heal numbers with crit bursts. Works outdoors and in dungeons. Commands: <code>/juice on|off|test|heals|playerdmg|scale|height|debug</code>.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.20 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.20</h2>
+                    <span class="text-textSecondary text-sm">Jun 3, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.20" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.20" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Off-thread AC mutation marshaling — P1 fix for the object-teardown corruption AV class (<code>DBOCache::DestroyObj</code> / <code>List&lt;ObjectRangeInfo&gt;::remove</code>). Achieved 2.5h+ clean soak.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Explicit-target casting via <code>FreeHandsAndCastSpell</code> — combat spells no longer clobber the user's inventory selection. AC has one selection global; RynthAi now bypasses it entirely for magic.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Mode-flip spam throttled — repeated peace/combat state toggles dampened to prevent "too busy" cascade.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Activity Arbiter steps 1–2: Nav↔Combat boundary is now authoritative; eliminates the "bot stands still" class of bugs caused by distributed BotAction state.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.19 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.19</h2>
+                    <span class="text-textSecondary text-sm">May 25, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.19" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.19" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Nav3D renderer: double-buffered, triangle primitives, ring-with-height variant. Plugin API v61.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>EndScene pump upgraded to 60 Hz.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>New Avalonia panels: Memory tab, MetaSourceEditor.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Silent-no-show buff cooldown fix — resolves infinite "/god loop" hang when a buff was skipped silently.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Hazard cells, portal-NPC retry, LOS-aware patrol improvements.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-new mt-0.5 shrink-0">New</span><span><strong>RynthTracker</strong> — chat-driven activity tracker plugin.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.18 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.18</h2>
+                    <span class="text-textSecondary text-sm">May 23, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.18" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.18" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-new mt-0.5 shrink-0">New</span><span><strong>RynthVision plugin</strong> — computer-vision integration panel.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Plugin-gated panel registration — panels only activate if their backing plugin is loaded.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Avalonia click-through fix; position snapshot; AcActionTrace diagnostic.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>TerrainData shared lib added for dungeon geometry access.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.17 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.17</h2>
+                    <span class="text-textSecondary text-sm">May 20, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.17" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.16.1" target="_blank" class="text-xs text-primary hover:underline">RS v0.16.1 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Main-thread object/attackable snapshot — eliminates cross-thread AV class from off-thread AC object reads.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>SEH trampoline for safer hook dispatch; click-through watchdog; Chat panel (new Avalonia panel).</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Skill <code>InqLevel</code> enchant-registry null guard — prevents AV when the enchantment registry isn't populated yet.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Nav freeze fix; Activity Arbiter step 2 authoritative.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.16 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.16</h2>
+                    <span class="text-textSecondary text-sm">May 18, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.16" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.16" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Appraisal-authoritative monster health — reads actual health from appraisal packets instead of estimating from quality data.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Chat command dispatch improvements; plugin API surface expanded.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>In-AC ImGui shell re-enabled (alongside Avalonia panels).</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Offensive cast ACE fix — judgment-by-negation logic; "too busy" no longer counted as a miss.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Permanent enchant (bane/Impen) support; 30s buff re-sync after death; wand classification fix.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>CastGateWatchdog — detects and breaks stuck casting states.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-new mt-0.5 shrink-0">New</span><span><strong>RynthChat plugin</strong> — chat buffer, classifier, and plugin exports.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.15 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.15</h2>
+                    <span class="text-textSecondary text-sm">May 17, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.15" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.15" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>ImGui shell force-disabled — Avalonia panels are the primary in-game UI. D3D9/ImGui still initialises for overlay positioning but renders nothing.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Raycast auto-resolves the AC dat folder from the injected <code>acclient.exe</code>'s own path. Previously hardcoded, so raycasting never initialised for non-dev installs.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Combat, buff, loot, meta, and legacy UI updates across the board.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.14 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.14</h2>
+                    <span class="text-textSecondary text-sm">May 16, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.14" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.14" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span><code>CObjectMaint</code> seed — on login, existing world objects are replayed into the plugin's object cache so mobs already in range are detected immediately.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span><code>ObjectIsAttackable</code> plugin API added.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Login-mob detection rescue — bot now recognises mobs that were already in range at login instead of ignoring them.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>BoostNav combat-starve fix — navigation priority boost no longer unconditionally returns, which was starving the combat loop.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.12 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.12</h2>
+                    <span class="text-textSecondary text-sm">May 7, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.12" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Opt-in plugin discovery — the engine no longer auto-scans any folder. Plugins are registered explicitly via the launcher's Plugins tab and persisted in <code>engine.json</code>.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Multi-client DAT lock conflict fix — <code>CLBlockAllocator::OpenDataFile</code> patched to use shared-access flags.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Installer and documentation overhaul; second AC client install guidance added.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.11 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.11</h2>
+                    <span class="text-textSecondary text-sm">May 7, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.11" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.11" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Live object seed from <code>CObjectMaint</code> on engine init — world objects visible before injection are available immediately.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Salvage robustness improvements; combat refactor; buff diagnostics commands.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.10 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/60 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.10</h2>
+                    <span class="text-textSecondary text-sm">May 6, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.10" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Eliminated NativeAOT reverse-P/Invoke crash class — callbacks from native AC into managed code no longer risk a fail-fast on certain call patterns.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Poll-driven auto-login — character selection and world entry now work without requiring user interaction after each inject.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.9 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-accent border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.9</h2>
+                    <span class="text-textSecondary text-sm">May 5, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.9" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.9" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Full Avalonia panel suite — Radar, Meta, Items, Monsters, Nav, and Settings panels all ported. Replaces the legacy ImGui-only UI.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Engine hot-reload — swap the engine DLL without restarting AC or the launcher. <code>RynthCore.Loader</code> thin-shim handles the bootstrap.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>Live panel resize — content reflows while dragging the grip, not just on mouse release.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span><code>PanelStateStore</code> — floating panel positions and open/closed state persist across sessions.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Logout crash — <code>ChatHooks.TickHide</code> was calling <code>UIElement::SetVisible</code> on a freed widget pointer during the world→char-select transition. Resolved by gating on login state.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Wand detection fallback — name-based check (Orb/Staff/Wand/Scepter/Baton/Crozier) prevents "bot buffs with sword out" when TypeFlags packet hasn't arrived yet.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Avalonia bridge, dungeon pathfinder, creature data system.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.8 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-accent border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.8</h2>
+                    <span class="text-textSecondary text-sm">Apr 26, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.8" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.8" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Logout crash — <code>ChatHooks.TickHide</code> was calling <code>UIElement::SetVisible</code> every frame on a freed <code>gmMainChatUI</code> pointer. AC frees that widget on world-exit; the next frame walked a freed vtable and AVed inside <code>IsVisible+0x2B</code>.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span><code>OnLogout</code> plugin lifecycle (API v57) — new <code>RynthPluginOnLogout</code> export; engine hooks <code>CPlayerSystem::ExecuteLogOff</code> (post-confirm, not pre-prompt).</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Truly buffed skill — <code>CACQualities::InqSkill(raw=0)</code> replaces the bare level read. Spell tiers now scale correctly with high-buffed skills (e.g. Creature Enchantment).</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Separate buff thresholds (<code>BuffMinSkillLevelTier1..8</code>); tier-upgrade-on-the-fly; <code>/ra buffs tiers</code> diagnostic.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Void Magic — <code>FindBestRingSpell</code> no longer returns War-only lore rings for Void casters; Nether Ring / Corrosion Ring now resolve correctly.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Looting overhaul — <code>VTankLootEvaluator</code> replaces <code>VTankLootParser</code>; <code>SalvageManager</code> respects per-material workmanship bands.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-fix mt-0.5 shrink-0">Fix</span><span>Auto-login one-shot latch — manual logout no longer instantly re-fires auto-login.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.7 ═══════════════════════════════ -->
+            <div class="relative pb-16">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-primary/40 border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight">v0.7</h2>
+                    <span class="text-textSecondary text-sm">Apr 25, 2026</span>
+                    <a href="https://github.com/tombohar/RynthCore/releases/tag/v0.7" target="_blank" class="text-xs text-primary hover:underline">RC release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                    <a href="https://github.com/tombohar/RynthSuite/releases/tag/v0.7" target="_blank" class="text-xs text-primary hover:underline">RS release <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>
+                </div>
+                <div class="bg-panel border border-border rounded-2xl p-8 space-y-3">
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span><code>imgui.ini</code> pinned to a stable absolute path — window positions and dock layout persist across hot-reloads and AC restarts.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-engine mt-0.5 shrink-0">Engine</span><span>New <code>SetPowerbarSuppressed</code> plugin API (SDK v56).</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Mana stone overhaul — drain-first priority, worn-gear refill by percentage, stone blacklist on timeout or "already full" chat.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>UST detection is type-based (<code>AcObjectClass.Ust</code>), universal across servers and item variants.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Buff manager: vital-cast holds the BotAction lock; login refresh gate blocks casts until live memory is available.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Meta UI: multi-action rules expand inline; right-click opens a 720×380 multi-line expression editor that auto-saves.</span></div>
+                    <div class="flex items-start gap-3"><span class="badge badge-plugin mt-0.5 shrink-0">Plugin</span><span>Dashboard theming — muted slate-blue palette replacing vivid sky-blue.</span></div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════ v0.3 – v0.6 ═══════════════════════════════ -->
+            <div class="relative pb-4">
+                <div class="absolute -left-8 w-4 h-4 rounded-full bg-border border-2 border-dark mt-1"></div>
+                <div class="flex flex-wrap items-baseline gap-4 mb-6">
+                    <h2 class="text-3xl font-black tracking-tight text-textSecondary">v0.3 – v0.6</h2>
+                    <span class="text-textSecondary text-sm">Apr 18 – 24, 2026</span>
+                </div>
+                <div class="bg-panel/50 border border-border/50 rounded-2xl p-8">
+                    <p class="text-textSecondary">Early releases establishing the core injection stack, Avalonia launcher, D3D9/ImGui overlay, initial RynthAi plugin port, radar/chat suppression hooks, jump primitives, account profile system, and the first Inno Setup installer.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-dark py-12 border-t border-border mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthCore & RynthSuite Changelog</p>
+        </div>
+    </footer>
+
+</body>
+</html>
