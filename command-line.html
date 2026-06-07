@@ -78,7 +78,7 @@
                     </div>
                     <div class="cmd-row">
                         <code>/ra ui</code>
-                        <span class="text-textSecondary">Toggles the RynthAi ImGui overlay visibility.</span>
+                        <span class="text-textSecondary">Toggles the RynthAi Avalonia panel visibility.</span>
                     </div>
                 </div>
             </section>
@@ -290,23 +290,96 @@
                 </div>
             </section>
 
-            <!-- Scripting -->
+            <!-- RynthCore Host Commands -->
             <section>
                 <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-code"></i> Scripting
+                    <i class="fa-solid fa-microchip"></i> RynthCore Host
                 </h2>
+                <p class="text-textSecondary mb-4 text-sm">Engine-level commands using the <code>/rc</code> prefix. These are handled before plugins and before AC sees the line, so they work even when the overlay bar is hidden.</p>
                 <div class="bg-panel border border-border rounded-xl overflow-hidden">
                     <div class="cmd-row">
-                        <code>/lua &lt;script&gt;</code>
-                        <span class="text-textSecondary">Executes a raw Lua string through the embedded engine.</span>
+                        <code>/rc vitals</code>
+                        <span class="text-textSecondary">Toggles the custom D3D9 HP/Stamina/Mana HUD on or off. Setting persists across relaunches. Alias: <code>/rc hud</code>.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/ra lua &lt;script&gt;</code>
-                        <span class="text-textSecondary">Alternative syntax for executing Lua scripts.</span>
+                        <code>/rc resetbar</code>
+                        <span class="text-textSecondary">Resets the overlay bar position to the top of the screen. Also accessible from the launcher's <strong>Reset Overlay Bar</strong> button. Alias: <code>/rc barreset</code>.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RynthNav -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-route"></i> RynthNav (Mesh Navigation)
+                </h2>
+                <p class="text-textSecondary mb-4 text-sm">Requires the <strong>RynthNav</strong> plugin. Type a coordinate and the plugin walks your character there automatically via a DotRecast navmesh, avoiding buildings and obstacles.</p>
+                <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                    <div class="cmd-row">
+                        <code>/rnav goto &lt;coord&gt;</code>
+                        <span class="text-textSecondary">Navigate to a map coordinate, e.g. <code>/rnav goto 2.7N, 18.9E</code>. Stops on arrival.</span>
                     </div>
                     <div class="cmd-row">
-                        <code>/ra mexec &lt;expression&gt;</code>
-                        <span class="text-textSecondary">Executes a VTank/UB mexec expression.</span>
+                        <code>/rnav stop</code>
+                        <span class="text-textSecondary">Cancels active navigation immediately.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/rnav here</code>
+                        <span class="text-textSecondary">Prints your current player coordinates in AC map format.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/rnav load</code>
+                        <span class="text-textSecondary">Loads or refreshes navmesh tiles for the current landblock.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/rnav test</code>
+                        <span class="text-textSecondary">Runs a path-finding test query in the current tile and prints the result.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/rnav route &lt;coord&gt;</code>
+                        <span class="text-textSecondary">Plans a multi-leg route to the destination and prints the legs without starting movement.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/rnav portals on|off</code>
+                        <span class="text-textSecondary">Enables or disables portal routing in multi-leg paths (experimental, off by default).</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RynthJuice -->
+            <section>
+                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                    <i class="fa-solid fa-fire-flame-curved"></i> RynthJuice (Combat FX)
+                </h2>
+                <p class="text-textSecondary mb-4 text-sm">Requires the <strong>RynthJuice</strong> plugin. Renders floating damage and heal numbers in-world above targets, with crit bursts and dungeon interior support. Needs a clean (no-Decal) client.</p>
+                <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                    <div class="cmd-row">
+                        <code>/juice on|off|toggle</code>
+                        <span class="text-textSecondary">Enables, disables, or toggles floating damage numbers.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/juice test</code>
+                        <span class="text-textSecondary">Spawns a test damage float above your character to verify rendering is working.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/juice heals</code>
+                        <span class="text-textSecondary">Toggles display of incoming heal numbers.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/juice playerdmg</code>
+                        <span class="text-textSecondary">Toggles display of damage dealt to the player.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/juice scale &lt;N&gt;</code>
+                        <span class="text-textSecondary">Sets text scale from 0.3 to 4.0. Default is 1.0. Example: <code>/juice scale 1.5</code>.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/juice height &lt;N&gt;</code>
+                        <span class="text-textSecondary">Sets the float height offset above targets in meters (0–8). Example: <code>/juice height 1.8</code>.</span>
+                    </div>
+                    <div class="cmd-row">
+                        <code>/juice debug</code>
+                        <span class="text-textSecondary">Prints render diagnostics — last frame status and what effects were emitted.</span>
                     </div>
                 </div>
             </section>

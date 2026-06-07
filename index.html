@@ -118,7 +118,7 @@
                     </div>
                     <h2 class="text-4xl md:text-5xl font-black mb-8 tracking-tight">Visualize Your <span class="text-accent">Tactics</span>.</h2>
                     <p class="text-lg text-textSecondary mb-8 leading-relaxed">
-                        RynthAi brings advanced navigation awareness directly into the game client. Stop guessing where your path leads and see it rendered in high-performance ImGui overlays.
+                        RynthAi is the flagship RynthSuite plugin — a full combat, navigation, and automation suite driven by an Avalonia-powered in-game panel. No separate launcher window required.
                     </p>
                     <ul class="space-y-6 mb-10">
                         <li class="flex gap-4">
@@ -126,8 +126,8 @@
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-textPrimary">VTank Nav Integration</h4>
-                                <p class="text-sm text-textSecondary">Full support for parsing and rendering classic <code>.nav</code> profiles with modern precision.</p>
+                                <h4 class="font-bold text-textPrimary">VTank-Compatible Automation</h4>
+                                <p class="text-sm text-textSecondary">Reads <code>.nav</code>, <code>.met</code>, and <code>.utl</code> profiles directly — drop in your existing files and go.</p>
                             </div>
                         </li>
                         <li class="flex gap-4">
@@ -135,8 +135,8 @@
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-textPrimary">Spatial HUD</h4>
-                                <p class="text-sm text-textSecondary">Renders waypoints, routes, and active targets as spatial markers in the game world.</p>
+                                <h4 class="font-bold text-textPrimary">Mesh Navigation via RynthNav</h4>
+                                <p class="text-sm text-textSecondary">Companion plugin uses DotRecast to walk to any coordinate, avoiding obstacles — no hand-crafted waypoint routes needed.</p>
                             </div>
                         </li>
                         <li class="flex gap-4">
@@ -144,8 +144,8 @@
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-textPrimary">NativeAOT Performance</h4>
-                                <p class="text-sm text-textSecondary">Zero-latency rendering that won't impact your frame rate, even in intense combat.</p>
+                                <h4 class="font-bold text-textPrimary">Combat FX via RynthJuice</h4>
+                                <p class="text-sm text-textSecondary">Floating in-world damage numbers, crit bursts, and heals rendered directly in the game world — outdoors and in dungeons.</p>
                             </div>
                         </li>
                     </ul>
@@ -216,26 +216,26 @@
                             <div class="flex gap-6">
                                 <div class="w-12 h-12 bg-dark border border-border rounded-xl flex items-center justify-center font-black text-primary text-xl shadow-inner">1</div>
                                 <div>
-                                    <h4 class="text-xl font-bold mb-2">Deploy Runtime</h4>
-                                    <p class="text-textSecondary">Run <code>Deploy-RynthCore.ps1</code> to generate the standard folder structure under <code>C:\Games\RynthCore</code>.</p>
+                                    <h4 class="text-xl font-bold mb-2">Run the Installer</h4>
+                                    <p class="text-textSecondary">Download and run <code>RynthCore-Setup.exe</code>. It deploys the engine, loader, and launcher to <code>C:\Games\RynthCore\</code> and creates Start Menu shortcuts.</p>
                                 </div>
                             </div>
                             <div class="flex gap-6">
                                 <div class="w-12 h-12 bg-dark border border-border rounded-xl flex items-center justify-center font-black text-primary text-xl shadow-inner">2</div>
                                 <div>
-                                    <h4 class="text-xl font-bold mb-2">Inject</h4>
-                                    <p class="text-textSecondary">Use the Avalonia launcher to target <code>acclient.exe</code> and inject the high-performance engine.</p>
+                                    <h4 class="text-xl font-bold mb-2">Launch & Inject</h4>
+                                    <p class="text-textSecondary">Open the RynthCore launcher, add the RynthAi plugin DLL via the <strong>Plugins</strong> tab, then click <strong>Launch AC</strong> to start and inject in one step.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="bg-dark rounded-2xl p-8 border border-border font-mono text-sm space-y-4">
                             <div class="flex justify-between items-center pb-4 border-b border-border mb-4">
-                                <span class="text-textSecondary">Release v0.1.0-alpha</span>
+                                <span class="text-textSecondary">Release v0.21</span>
                                 <span class="text-primary">LATEST</span>
                             </div>
-                            <div class="text-primary">$ dotnet publish .\src\RynthCore.App</div>
-                            <div class="text-textSecondary">Optimizing for win-x86...</div>
-                            <div class="text-accent">Success: RynthCore.Engine.dll built</div>
+                            <div class="text-primary">$ RynthCore-Setup.exe</div>
+                            <div class="text-textSecondary">Installing to C:\Games\RynthCore\...</div>
+                            <div class="text-accent">Success: RynthCore v0.21 ready</div>
                             <div class="pt-6">
                                 <a href="https://github.com/tombohar/RynthCore" target="_blank" class="block w-full py-4 bg-primary text-dark font-black text-center rounded-lg hover:bg-primaryHover transition-colors">
                                     DOWNLOAD BUNDLE

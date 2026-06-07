@@ -66,7 +66,7 @@
                 <span class="text-gradient">RYNTHAI</span> ENGINE
             </h1>
             <p class="text-2xl text-textSecondary max-w-3xl font-medium leading-relaxed mb-12">
-                A high-performance intelligence suite for Asheron's Call, featuring advanced raycasting, state-based automation, and embedded Lua scripting.
+                A high-performance intelligence suite for Asheron's Call, featuring advanced raycasting, state-based automation, and an Avalonia-powered in-game panel.
             </p>
         </div>
     </section>
@@ -114,20 +114,9 @@
                     <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mb-8">
                         <i class="fa-solid fa-map-location-dot text-accent text-2xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Tiered Navigation</h3>
+                    <h3 class="text-2xl font-bold mb-4">Waypoint Navigation</h3>
                     <p class="text-textSecondary leading-relaxed">
-                        Supports legacy <code>SetAutorun</code>, Tier 1 direct <code>CM_Movement</code> calls, and a planned Tier 2 <code>MoveToPosition</code> system for high-fidelity path following.
-                    </p>
-                </div>
-
-                <!-- Lua Integration -->
-                <div class="feature-card p-10 rounded-3xl">
-                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8">
-                        <i class="fa-solid fa-code text-primary text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Lua Bridge</h3>
-                    <p class="text-textSecondary leading-relaxed">
-                        Extend RynthAi with standard Lua. Access player coordinates, world objects, and navigation functions through an embedded script engine for custom, per-character logic.
+                        VTank <code>.nav</code> profile routing with <code>CM_Movement</code> calls. The companion <strong>RynthNav</strong> plugin adds full mesh-based navigation via DotRecast — type a coordinate and walk there automatically, avoiding obstacles.
                     </p>
                 </div>
 
