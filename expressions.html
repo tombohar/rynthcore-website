@@ -12,8 +12,11 @@
                 extend: {
                     colors: {
                         primary: '#26C1A6',
+                        primaryHover: '#1ea891',
+                        accent: '#E2B348',
                         dark: '#0B1218',
                         panel: '#132028',
+                        muted: '#0F161D',
                         border: '#243742',
                         textPrimary: '#EAF0F4',
                         textSecondary: '#9AA8B3',
@@ -26,18 +29,83 @@
     <style>
         body { background-color: #0B1218; color: #EAF0F4; font-family: 'Inter', sans-serif; }
         .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0); background-size: 40px 40px; }
-        code { background: #1a2e38; padding: 0.2rem 0.4rem; border-radius: 4px; color: #26C1A6; font-family: monospace; }
-        .expr-block { background: #0f161d; border-left: 4px solid #26C1A6; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
-        .var-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
-        .var-card { background: #0f161d; border: 1px solid #243742; padding: 1rem; border-radius: 8px; transition: all 0.2s; }
-        .var-card:hover { border-color: #26C1A6; box-shadow: 0 4px 12px rgba(38, 193, 166, 0.1); }
-        .var-name { color: #26C1A6; font-weight: bold; font-family: monospace; font-size: 0.95rem; }
-        .var-type { color: #E2B348; font-size: 0.8rem; margin-top: 0.25rem; }
-        .var-desc { color: #9AA8B3; font-size: 0.85rem; margin-top: 0.5rem; }
+        .nav-glass { background: rgba(11, 18, 24, 0.85); backdrop-filter: blur(12px); }
+        .text-gradient { background: linear-gradient(to right, #26C1A6, #E2B348); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        code {
+            background: #1a2e38;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            color: #26C1A6;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            font-size: 0.88em;
+        }
+        .expr-block {
+            background: #0f161d;
+            border-left: 3px solid #26C1A6;
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            font-size: 0.92rem;
+            color: #26C1A6;
+        }
+        .example-block {
+            background: #0a1218;
+            border: 1px solid #243742;
+            border-left: 3px solid #E2B348;
+            padding: 1rem 1.25rem;
+            border-radius: 0 6px 6px 0;
+        }
+        .fn-table { width: 100%; border-collapse: collapse; }
+        .fn-table tr { border-bottom: 1px solid #243742; }
+        .fn-table tr:last-child { border-bottom: none; }
+        .fn-table td { padding: 0.65rem 1rem; vertical-align: top; }
+        .fn-table td:first-child { width: 40%; white-space: nowrap; }
+        .fn-table td:last-child { color: #9AA8B3; font-size: 0.875rem; }
+        .scope-tag {
+            display: inline-block;
+            padding: 0.1rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .scope-session  { background: rgba(38,193,166,0.12); color: #26C1A6; border: 1px solid rgba(38,193,166,0.25); }
+        .scope-persist  { background: rgba(226,179,72,0.12); color: #E2B348; border: 1px solid rgba(226,179,72,0.25); }
+        .scope-global   { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+        .op-chip {
+            display: inline-block;
+            background: #1a2e38;
+            border: 1px solid #243742;
+            border-radius: 6px;
+            padding: 0.3rem 0.75rem;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #26C1A6;
+            margin: 0.2rem;
+        }
+        .section-anchor { scroll-margin-top: 6rem; }
+        .toc-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            color: #9AA8B3;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: all 0.15s;
+            border: 1px solid transparent;
+        }
+        .toc-link:hover { color: #26C1A6; background: rgba(38,193,166,0.07); border-color: rgba(38,193,166,0.2); }
     </style>
 </head>
 <body class="antialiased bg-grid">
-    <nav class="fixed w-full z-50 top-0 bg-dark/80 backdrop-blur-md border-b border-border">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 nav-glass border-b border-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <a href="index.html" class="flex items-center gap-4 group">
@@ -46,11 +114,12 @@
                     </div>
                     <span class="font-black text-2xl tracking-tighter">RYNTHCORE</span>
                 </a>
-                <div class="flex gap-8">
+                <div class="hidden md:flex gap-8">
                     <a href="index.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Home</a>
                     <a href="command-line.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Commands</a>
                     <a href="rynthai.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">RynthAi</a>
-                    <a href="expressions.html" class="text-sm font-medium text-primary uppercase tracking-widest">Expressions</a>
+                    <a href="expressions.html" class="text-sm font-medium text-primary uppercase tracking-widest border-b-2 border-primary">Expressions</a>
+                    <a href="changelog.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Changelog</a>
                     <a href="releases.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Releases</a>
                     <a href="readme.html" class="text-sm font-medium hover:text-primary transition-colors uppercase tracking-widest">Readme</a>
                 </div>
@@ -58,760 +127,894 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-5xl font-black mb-4 tracking-tighter">EXPRESSIONS</h1>
-        <p class="text-xl text-textSecondary mb-12">Complete reference for Asheron's Call expression variables. Use bracketed syntax in meta conditions, loot filters, and chat actions.</p>
+    <div class="pt-32 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="space-y-16">
-            <!-- Syntax Overview -->
-            <section>
-                <h2 class="text-3xl font-bold mb-6 tracking-tight">Syntax Overview</h2>
-                <p class="text-textSecondary mb-6 leading-relaxed">
-                    RynthAi expressions use a familiar bracketed syntax to query game state. Variables are wrapped in square brackets <code>[like this]</code> and can be combined with operators and logic.
-                </p>
-                <div class="expr-block">
-                    <p class="text-sm text-textSecondary mb-2 font-bold uppercase tracking-widest">Condition Example</p>
-                    <code class="text-base">[SlotCount] < 5 && [Burden] > 80</code>
-                    <p class="text-xs text-textSecondary mt-2">Triggers when fewer than 5 slots AND burden exceeds 80%.</p>
-                </div>
-                <div class="expr-block">
-                    <p class="text-sm text-textSecondary mb-2 font-bold uppercase tracking-widest">Chat Action Example</p>
-                    <code class="text-base">/g Help! My burden is [Burden]% and I only have [SlotCount] slots!</code>
-                    <p class="text-xs text-textSecondary mt-2">Broadcasts dynamic values to group chat.</p>
-                </div>
-            </section>
-
-            <!-- Vital Statistics -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-heart"></i> Vital Statistics
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[Health]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Current health percentage</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[HealthCurrent]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Current health points (absolute)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[HealthMax]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Maximum health points</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Mana]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Current mana percentage</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ManaCurrent]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Current mana points (absolute)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ManaMax]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Maximum mana points</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Stamina]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Current stamina percentage</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[StaminaCurrent]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Current stamina points (absolute)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[StaminaMax]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Maximum stamina points</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Inventory & Burden -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-bag"></i> Inventory & Burden
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[SlotCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Number of free inventory slots</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Burden]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Burden as percentage of max capacity</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[BurdenCurrent]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Current burden in absolute units</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[BurdenMax]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Maximum burden capacity</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ItemCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Total items in inventory</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[VialCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Count of mana vials in inventory</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Character Attributes -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-person"></i> Character Attributes
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[Name]</div>
-                        <div class="var-type">String</div>
-                        <div class="var-desc">Your character name</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Level]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Current character level</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Experience]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Total experience points</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ExperienceLeft]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Experience needed for next level</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Sex]</div>
-                        <div class="var-type">String</div>
-                        <div class="var-desc">Character gender (Male/Female)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Race]</div>
-                        <div class="var-type">String</div>
-                        <div class="var-desc">Character race</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Age]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Character age in years</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[NumCharacterDeaths]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Total character deaths</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Skills & Attributes -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-dumbbell"></i> Skills & Attributes
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[Strength]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Strength attribute value</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Endurance]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Endurance attribute value</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Coordination]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Coordination attribute value</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Quickness]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Quickness attribute value</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Focus]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Focus attribute value</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Self]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Self attribute value</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[MeleeDefense]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Melee defense skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[MissileDefense]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Missile defense skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[MagicDefense]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Magic defense skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[MeleeAttack]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Melee attack skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[MissileAttack]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Missile attack skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ManaConversion]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Mana conversion skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[SpellAttack]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Spell attack skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[CreatureEnchantment]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Creature enchantment skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ItemEnchantment]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Item enchantment skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[LifeMagic]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Life magic skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[WarMagic]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">War magic skill</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[VoidMagic]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Void magic skill</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Combat & Targeting -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-shield-halved"></i> Combat & Targeting
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[AttackerCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Creatures currently attacking you</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[CurrentTarget]</div>
-                        <div class="var-type">ID (Integer)</div>
-                        <div class="var-desc">Object ID of current target</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[TargetName]</div>
-                        <div class="var-type">String</div>
-                        <div class="var-desc">Name of current target</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[TargetHealth]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Target health percentage</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[TargetDistance]</div>
-                        <div class="var-type">Float</div>
-                        <div class="var-desc">Distance to current target in meters</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[PlayerInCombat]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether in combat stance</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[TargetExists]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether a target is selected</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[TargetDead]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether target is dead</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Location & Navigation -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-map"></i> Location & Navigation
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[LocationNS]</div>
-                        <div class="var-type">Float</div>
-                        <div class="var-desc">North-South coordinate (Y)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[LocationEW]</div>
-                        <div class="var-type">Float</div>
-                        <div class="var-desc">East-West coordinate (X)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[LocationZ]</div>
-                        <div class="var-type">Float</div>
-                        <div class="var-desc">Vertical coordinate (Z)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Heading]</div>
-                        <div class="var-type">Float (0-360)</div>
-                        <div class="var-desc">Current facing direction</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Landblock]</div>
-                        <div class="var-type">Hex (Integer)</div>
-                        <div class="var-desc">Current landblock ID</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[NavRunning]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether navigation is active</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[NavWaypoint]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Current waypoint index</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Buffs & Spells -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-sparkles"></i> Buffs & Spells
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[AbsorbMagic]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Magic absorption percentage</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ArcaneHarm]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Arcane harm protection level</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[CriticalStrike]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Critical strike chance percentage</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[DamageReduction]</div>
-                        <div class="var-type">Integer (0-100)</div>
-                        <div class="var-desc">Damage reduction percentage</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[RegenerationRate]</div>
-                        <div class="var-type">Float</div>
-                        <div class="var-desc">Health regeneration per tick</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[HasBuff]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether specific buff is active (with name)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[BuffDuration]</div>
-                        <div class="var-type">Float</div>
-                        <div class="var-desc">Remaining duration of buff in seconds</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Status & States -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-circle-status"></i> Status & States
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[Dead]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether character is dead</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Rested]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether rested buff is active</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Poisoned]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether currently poisoned</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Cursed]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether under a curse</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Silenced]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether silenced (cannot cast)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[Encumbered]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether movement is encumbered</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[IsClimbing]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether currently climbing</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[IsSwimming]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether currently swimming</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[IsJumping]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether currently jumping</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Fellowship & Groups -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-users"></i> Fellowship & Groups
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[InFellowship]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether in a fellowship</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[FellowshipName]</div>
-                        <div class="var-type">String</div>
-                        <div class="var-desc">Name of current fellowship</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[FellowshipCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Number of fellowship members</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[FellowLeader]</div>
-                        <div class="var-type">String</div>
-                        <div class="var-desc">Fellowship leader name</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[IsFellowLeader]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether you are the leader</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[FellowshipOpen]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether fellowship accepts recruits</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[FellowshipLocked]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether fellowship is locked</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[FellowshipShareXP]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether XP sharing is enabled</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Objects & Corpses -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-cube"></i> Objects & Corpses
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[NearestCorpse]</div>
-                        <div class="var-type">ID (Integer)</div>
-                        <div class="var-desc">ID of nearest corpse</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[NearestCorpseDistance]</div>
-                        <div class="var-type">Float</div>
-                        <div class="var-desc">Distance to nearest corpse</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[NearestCreature]</div>
-                        <div class="var-type">ID (Integer)</div>
-                        <div class="var-desc">ID of nearest creature</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[ObjectCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Number of objects in view</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[CreatureCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Number of creatures in view</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[CorpseCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Number of corpses in view</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Time & Game State -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-clock"></i> Time & Game State
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[ServerTime]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Server time in seconds since epoch</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[GameTime]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">In-game time of day (0-2880 minutes)</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[FPS]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Current frames per second</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[GameState]</div>
-                        <div class="var-type">String</div>
-                        <div class="var-desc">Current game state</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[IsAllegianceOpen]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether allegiance panel is open</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[IsLoggedIn]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether logged into AC</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Loot & Items -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-coins"></i> Loot & Items
-                </h2>
-                <div class="var-grid">
-                    <div class="var-card">
-                        <div class="var-name">[CoinValue]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Total pyreals in inventory</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[OpenCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Open container count</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[LootedCount]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Items looted in session</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[SellValue]</div>
-                        <div class="var-type">Integer</div>
-                        <div class="var-desc">Estimated vendor value of inventory</div>
-                    </div>
-                    <div class="var-card">
-                        <div class="var-name">[HasItem]</div>
-                        <div class="var-type">Boolean (0/1)</div>
-                        <div class="var-desc">Whether inventory has specific item</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Operators & Logic -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-code"></i> Operators & Logic
-                </h2>
-                <div class="bg-panel border border-border rounded-xl p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <h3 class="text-accent font-bold mb-3">Comparison</h3>
-                            <div class="space-y-2 text-sm text-textSecondary">
-                                <div><code>==</code> Equal to</div>
-                                <div><code>!=</code> Not equal</div>
-                                <div><code>&lt;</code> Less than</div>
-                                <div><code>&lt;=</code> Less or equal</div>
-                                <div><code>&gt;</code> Greater than</div>
-                                <div><code>&gt;=</code> Greater or equal</div>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-accent font-bold mb-3">Logical</h3>
-                            <div class="space-y-2 text-sm text-textSecondary">
-                                <div><code>&&</code> AND</div>
-                                <div><code>||</code> OR</div>
-                                <div><code>!</code> NOT</div>
-                                <div><code>( )</code> Grouping</div>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="text-accent font-bold mb-3">Arithmetic</h3>
-                            <div class="space-y-2 text-sm text-textSecondary">
-                                <div><code>+</code> Addition</div>
-                                <div><code>-</code> Subtraction</div>
-                                <div><code>*</code> Multiply</div>
-                                <div><code>/</code> Division</div>
-                                <div><code>%</code> Modulo</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Common Patterns -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-lightbulb"></i> Common Patterns & Recipes
-                </h2>
-                <div class="space-y-4">
-                    <div class="bg-panel border border-border rounded-xl p-6">
-                        <h3 class="text-lg font-bold mb-3">Inventory Management</h3>
-                        <div class="expr-block">
-                            <code>[SlotCount] < 5</code>
-                            <p class="text-xs text-textSecondary mt-2">Trigger when fewer than 5 free slots</p>
-                        </div>
-                        <div class="expr-block">
-                            <code>[Burden] > 90 && [SlotCount] < 3</code>
-                            <p class="text-xs text-textSecondary mt-2">Critically full inventory</p>
-                        </div>
-                    </div>
-                    <div class="bg-panel border border-border rounded-xl p-6">
-                        <h3 class="text-lg font-bold mb-3">Combat Triggers</h3>
-                        <div class="expr-block">
-                            <code>[Health] < 30</code>
-                            <p class="text-xs text-textSecondary mt-2">Low health - transition to healing</p>
-                        </div>
-                        <div class="expr-block">
-                            <code>[Health] < 50 || [Mana] < 20</code>
-                            <p class="text-xs text-textSecondary mt-2">Low on either vital</p>
-                        </div>
-                        <div class="expr-block">
-                            <code>[AttackerCount] > 2</code>
-                            <p class="text-xs text-textSecondary mt-2">Multiple enemies - switch to AOE mode</p>
-                        </div>
-                    </div>
-                    <div class="bg-panel border border-border rounded-xl p-6">
-                        <h3 class="text-lg font-bold mb-3">Dynamic Chat Messages</h3>
-                        <div class="expr-block">
-                            <code>/g Need help! [AttackerCount] enemies attacking and health [Health]%</code>
-                            <p class="text-xs text-textSecondary mt-2">Real-time combat status broadcast</p>
-                        </div>
-                        <div class="expr-block">
-                            <code>/t [FellowLeader], inventory full: [Burden]%</code>
-                            <p class="text-xs text-textSecondary mt-2">Report to fellowship leader</p>
-                        </div>
-                    </div>
-                    <div class="bg-panel border border-border rounded-xl p-6">
-                        <h3 class="text-lg font-bold mb-3">Advanced Conditions</h3>
-                        <div class="expr-block">
-                            <code>([Health] > 75 && [Mana] > 60) && ![Encumbered]</code>
-                            <p class="text-xs text-textSecondary mt-2">Ready for combat - healthy, mana full, not encumbered</p>
-                        </div>
-                        <div class="expr-block">
-                            <code>[TargetExists] && [TargetDistance] < 30 && ![TargetDead]</code>
-                            <p class="text-xs text-textSecondary mt-2">Valid combat target nearby</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Tips & Notes -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-note-sticky"></i> Tips & Notes
-                </h2>
-                <div class="bg-panel border border-border rounded-xl p-8 space-y-6">
-                    <div>
-                        <h3 class="text-accent font-bold mb-2">Case Sensitivity</h3>
-                        <p class="text-textSecondary text-sm">Variable names must match exactly: <code>[Health]</code> works, <code>[health]</code> does not.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-accent font-bold mb-2">Whitespace is Flexible</h3>
-                        <p class="text-textSecondary text-sm">Spaces around operators are optional: <code>[Health]<30</code> and <code>[Health] < 30</code> are identical.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-accent font-bold mb-2">Boolean Values</h3>
-                        <p class="text-textSecondary text-sm">In conditions, 0 = false, any non-zero = true. Use explicitly with <code>== 0</code> or <code>!= 0</code>.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-accent font-bold mb-2">Type Coercion</h3>
-                        <p class="text-textSecondary text-sm">The engine automatically converts between types where sensible. Mixing strings and numbers works in most cases.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-accent font-bold mb-2">Performance Tip</h3>
-                        <p class="text-textSecondary text-sm">Simple comparisons are fast. Avoid deeply nested logic with many <code>||</code> branches in high-frequency checks.</p>
-                    </div>
-                    <div>
-                        <h3 class="text-accent font-bold mb-2">Debugging</h3>
-                        <p class="text-textSecondary text-sm">Use chat actions to print variable values: <code>/t [Health] [Mana] [Burden]</code> to verify in-game state.</p>
-                    </div>
-                </div>
-            </section>
-
+        <!-- Page Header -->
+        <div class="mb-14">
+            <h1 class="text-5xl font-black mb-3 tracking-tighter">EXPRESSION ENGINE</h1>
+            <p class="text-xl text-textSecondary max-w-3xl leading-relaxed">
+                Full reference for the RynthAi expression language used in meta conditions, chat actions, and
+                loot rules. Expressions call <strong class="text-textPrimary">functions</strong> and compose them
+                with operators — there are no bare variable names in brackets.
+            </p>
         </div>
-    </main>
 
-    <footer class="bg-dark py-12 border-t border-border">
+        <div class="flex gap-10 items-start">
+
+            <!-- Sticky TOC sidebar -->
+            <aside class="hidden xl:block w-56 shrink-0 sticky top-28 self-start">
+                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-3 px-1">On this page</p>
+                <nav class="space-y-0.5">
+                    <a href="#syntax"        class="toc-link"><i class="fa-solid fa-code fa-fw"></i> Syntax</a>
+                    <a href="#operators"     class="toc-link"><i class="fa-solid fa-not-equal fa-fw"></i> Operators</a>
+                    <a href="#variables"     class="toc-link"><i class="fa-solid fa-database fa-fw"></i> Variables</a>
+                    <a href="#vitals"        class="toc-link"><i class="fa-solid fa-heart fa-fw"></i> Vitals</a>
+                    <a href="#character"     class="toc-link"><i class="fa-solid fa-user fa-fw"></i> Character</a>
+                    <a href="#position"      class="toc-link"><i class="fa-solid fa-map-pin fa-fw"></i> Position</a>
+                    <a href="#worldstate"    class="toc-link"><i class="fa-solid fa-globe fa-fw"></i> World State</a>
+                    <a href="#wobject"       class="toc-link"><i class="fa-solid fa-cubes fa-fw"></i> World Objects</a>
+                    <a href="#spells"        class="toc-link"><i class="fa-solid fa-wand-magic-sparkles fa-fw"></i> Spells</a>
+                    <a href="#fellowship"    class="toc-link"><i class="fa-solid fa-users fa-fw"></i> Fellowship</a>
+                    <a href="#quests"        class="toc-link"><i class="fa-solid fa-scroll fa-fw"></i> Quests</a>
+                    <a href="#actions"       class="toc-link"><i class="fa-solid fa-bolt fa-fw"></i> Actions</a>
+                    <a href="#items"         class="toc-link"><i class="fa-solid fa-box fa-fw"></i> Item Counts</a>
+                    <a href="#time"          class="toc-link"><i class="fa-solid fa-clock fa-fw"></i> Time</a>
+                    <a href="#control"       class="toc-link"><i class="fa-solid fa-code-branch fa-fw"></i> Control Flow</a>
+                    <a href="#math"          class="toc-link"><i class="fa-solid fa-square-root-variable fa-fw"></i> Math</a>
+                    <a href="#strings"       class="toc-link"><i class="fa-solid fa-font fa-fw"></i> Strings</a>
+                    <a href="#collections"   class="toc-link"><i class="fa-solid fa-list fa-fw"></i> Collections</a>
+                    <a href="#chat"          class="toc-link"><i class="fa-solid fa-comment fa-fw"></i> Chat</a>
+                    <a href="#plugin"        class="toc-link"><i class="fa-solid fa-plug fa-fw"></i> Plugin Options</a>
+                    <a href="#patterns"      class="toc-link"><i class="fa-solid fa-lightbulb fa-fw"></i> Patterns</a>
+                </nav>
+            </aside>
+
+            <!-- Main content -->
+            <main class="min-w-0 flex-1 space-y-16">
+
+                <!-- SYNTAX -->
+                <section id="syntax" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-code"></i> Syntax
+                    </h2>
+                    <p class="text-textSecondary mb-6 leading-relaxed">
+                        Every expression is a <strong class="text-textPrimary">function call</strong> of the form
+                        <code>funcname[arg1, arg2]</code>. Function names are <strong class="text-textPrimary">case-insensitive</strong>.
+                        Functions that take no arguments still use empty brackets: <code>getcombatstate[]</code>.
+                        The shorthand <code>$name</code> is exactly equivalent to <code>getvar[name]</code>.
+                    </p>
+
+                    <div class="bg-panel border border-border rounded-xl p-6 space-y-5 mb-6">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-2">Function call — no arguments</p>
+                            <div class="expr-block">getcombatstate[]</div>
+                            <p class="text-xs text-textSecondary mt-2">Returns the current combat mode string: "Peace", "Melee", "Missile", or "Magic".</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-2">Function call — with argument</p>
+                            <div class="expr-block">getcharvital_current[1]</div>
+                            <p class="text-xs text-textSecondary mt-2">Returns the current Health value (vital ID 1).</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-2">Composed expression — condition</p>
+                            <div class="expr-block">getcharvital_current[1] * 100 / getcharvital_buffedmax[1] &lt; 40</div>
+                            <p class="text-xs text-textSecondary mt-2">True when health percentage is below 40%.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-2">Variable shorthand</p>
+                            <div class="expr-block">$kills &nbsp;→ equivalent to &nbsp;getvar[kills]</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-muted border border-amber-500/20 rounded-xl p-5 flex gap-4">
+                        <i class="fa-solid fa-triangle-exclamation text-accent mt-0.5 shrink-0"></i>
+                        <div>
+                            <p class="font-bold text-accent text-sm mb-1">Not bracket variables</p>
+                            <p class="text-textSecondary text-sm">
+                                This engine does <em>not</em> use a <code>[VariableName]</code> style.
+                                Every value comes from a function call like <code>getcharburden[0]</code>.
+                                If you are migrating from older uTank2 documentation, all your bare
+                                <code>[Variable]</code> references need to be rewritten as function calls.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- OPERATORS -->
+                <section id="operators" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-not-equal"></i> Operators
+                    </h2>
+                    <p class="text-textSecondary mb-5 leading-relaxed">
+                        Operators work between any two expression values. Standard operator precedence applies — use
+                        parentheses to be explicit.
+                    </p>
+                    <div class="bg-panel border border-border rounded-xl p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-3">Comparison</p>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="op-chip">==</span>
+                                    <span class="op-chip">!=</span>
+                                    <span class="op-chip">&lt;</span>
+                                    <span class="op-chip">&lt;=</span>
+                                    <span class="op-chip">&gt;</span>
+                                    <span class="op-chip">&gt;=</span>
+                                </div>
+                                <p class="text-xs text-textSecondary mt-3">Return true/false. Works on numbers and strings.</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-3">Logical</p>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="op-chip">&amp;&amp;</span>
+                                    <span class="op-chip">||</span>
+                                    <span class="op-chip">!</span>
+                                </div>
+                                <p class="text-xs text-textSecondary mt-3">AND, OR, NOT. Short-circuit evaluation applies.</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-3">Arithmetic</p>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="op-chip">+</span>
+                                    <span class="op-chip">-</span>
+                                    <span class="op-chip">*</span>
+                                    <span class="op-chip">/</span>
+                                    <span class="op-chip">%</span>
+                                </div>
+                                <p class="text-xs text-textSecondary mt-3">Standard math. <code>%</code> is modulo.</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-3">Examples</p>
+                                <div class="space-y-1.5">
+                                    <div class="expr-block text-xs py-1.5">getcharburden[0] &gt; 75 &amp;&amp; getfreeitemslots[] &lt; 10</div>
+                                    <div class="expr-block text-xs py-1.5">!(getequippedweapontype[] == Wand)</div>
+                                    <div class="expr-block text-xs py-1.5">getpvar[kills] % 100 == 0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VARIABLES -->
+                <section id="variables" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-database"></i> Variable Storage
+                    </h2>
+                    <p class="text-textSecondary mb-6 leading-relaxed">
+                        Three independent scopes, each with the same six operations.
+                        Use <strong class="text-textPrimary">session</strong> vars for temporary scratch,
+                        <strong class="text-textPrimary">pvar</strong> for per-character progress that survives logout,
+                        and <strong class="text-textPrimary">gvar</strong> for values shared across all characters.
+                    </p>
+
+                    <div class="space-y-6">
+                        <!-- Session -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border flex items-center gap-3">
+                                <span class="scope-tag scope-session">Session</span>
+                                <span class="text-textSecondary text-sm">In-memory only — lost on logout or reload</span>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>setvar[name, value]</code></td><td>Store a value.</td></tr>
+                                    <tr><td><code>getvar[name]</code></td><td>Read a value (or shorthand <code>$name</code>).</td></tr>
+                                    <tr><td><code>testvar[name]</code></td><td>True if the variable exists.</td></tr>
+                                    <tr><td><code>touchvar[name]</code></td><td>Create with empty value if not set; no-op otherwise.</td></tr>
+                                    <tr><td><code>clearvar[name]</code></td><td>Delete a single variable.</td></tr>
+                                    <tr><td><code>clearallvars[]</code></td><td>Delete all session variables.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Persistent -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border flex items-center gap-3">
+                                <span class="scope-tag scope-persist">Persistent (pvar)</span>
+                                <span class="text-textSecondary text-sm">Disk-backed, per-character</span>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>setpvar[name, value]</code></td><td>Store a value to disk.</td></tr>
+                                    <tr><td><code>getpvar[name]</code></td><td>Read a persisted value.</td></tr>
+                                    <tr><td><code>testpvar[name]</code></td><td>True if the variable exists on disk.</td></tr>
+                                    <tr><td><code>touchpvar[name]</code></td><td>Create with empty value if not present.</td></tr>
+                                    <tr><td><code>clearpvar[name]</code></td><td>Delete from disk.</td></tr>
+                                    <tr><td><code>clearallpvars[]</code></td><td>Delete all pvars for this character.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Global -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border flex items-center gap-3">
+                                <span class="scope-tag scope-global">Global (gvar)</span>
+                                <span class="text-textSecondary text-sm">Disk-backed, shared across all characters</span>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>setgvar[name, value]</code></td><td>Store a shared value.</td></tr>
+                                    <tr><td><code>getgvar[name]</code></td><td>Read a shared value.</td></tr>
+                                    <tr><td><code>testgvar[name]</code></td><td>True if the variable exists.</td></tr>
+                                    <tr><td><code>touchgvar[name]</code></td><td>Create with empty value if absent.</td></tr>
+                                    <tr><td><code>cleargvar[name]</code></td><td>Delete a global variable.</td></tr>
+                                    <tr><td><code>clearallgvars[]</code></td><td>Delete all global variables.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VITALS -->
+                <section id="vitals" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-heart"></i> Vitals
+                    </h2>
+                    <p class="text-textSecondary mb-5 leading-relaxed">
+                        Vital IDs: <strong class="text-textPrimary">1</strong> = Health,
+                        <strong class="text-textPrimary">2</strong> = Stamina,
+                        <strong class="text-textPrimary">3</strong> = Mana.
+                    </p>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>getcharvital_current[vitalId]</code></td><td>Current value in absolute points.</td></tr>
+                                <tr><td><code>getcharvital_buffedmax[vitalId]</code></td><td>Buffed maximum (what the bar is full at).</td></tr>
+                                <tr><td><code>getcharvital_base[vitalId]</code></td><td>Unbuffed base maximum.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 bg-muted border border-border rounded-xl p-5 space-y-3">
+                        <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Examples</p>
+                        <div class="expr-block">getcharvital_current[1] * 100 / getcharvital_buffedmax[1] &lt; 40</div>
+                        <p class="text-xs text-textSecondary">True when health percentage is below 40%.</p>
+                        <div class="expr-block">getcharvital_current[3] &lt; 500</div>
+                        <p class="text-xs text-textSecondary">True when mana points are below 500.</p>
+                    </div>
+                </section>
+
+                <!-- CHARACTER -->
+                <section id="character" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-user"></i> Character Properties
+                    </h2>
+
+                    <div class="space-y-6">
+                        <!-- Burden & Slots -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Burden &amp; Inventory</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>getcharburden[0]</code></td><td>Burden as a float percentage (e.g. <code>3.34</code> = 3.34%).</td></tr>
+                                    <tr><td><code>getcharburden_total[0]</code></td><td>Burden in raw units.</td></tr>
+                                    <tr><td><code>getfreeitemslots[]</code></td><td>Free item slots in all packs combined.</td></tr>
+                                    <tr><td><code>getfreecontainerslots[]</code></td><td>Free pack slots (how many more bags you could carry).</td></tr>
+                                    <tr><td><code>getcontaineritemcount[]</code></td><td>Number of items in your main pack.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Generic property readers -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Generic Property Readers (by SType ID)</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>getcharintprop[id]</code></td><td>Integer property — e.g. ID 25 = character level.</td></tr>
+                                    <tr><td><code>getchardoubleprop[id]</code></td><td>Double (float) property.</td></tr>
+                                    <tr><td><code>getcharquadprop[id]</code></td><td>64-bit integer property — e.g. ID 273 = total XP.</td></tr>
+                                    <tr><td><code>getcharboolprop[id]</code></td><td>Boolean property.</td></tr>
+                                    <tr><td><code>getcharstringprop[id]</code></td><td>String property.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Skills -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Skills (by STypeSkill numeric ID)</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>getcharskill_base[id]</code></td><td>Unbuffed skill level.</td></tr>
+                                    <tr><td><code>getcharskill_buffed[id]</code></td><td>Buffed skill level.</td></tr>
+                                    <tr><td><code>getcharskill_traininglevel[id]</code></td><td>0=Unusable, 1=Untrained, 2=Trained, 3=Specialized.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Attributes -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Attributes — IDs: 1=Str 2=End 3=Quick 4=Coord 5=Focus 6=Self</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>getcharattribute_base[id]</code></td><td>Unbuffed attribute value.</td></tr>
+                                    <tr><td><code>getcharattribute_buffed[id]</code></td><td>Buffed attribute value.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- POSITION -->
+                <section id="position" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-map-pin"></i> Position &amp; Coordinates
+                    </h2>
+                    <p class="text-textSecondary mb-5 leading-relaxed">
+                        Position functions return <em>coordinate objects</em> — opaque handles you pass into other
+                        coordinate functions to extract or compare values.
+                    </p>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>getplayercoordinates[]</code></td><td>Returns a coordinate object for the player's current position.</td></tr>
+                                <tr><td><code>coordinategetns[coords]</code></td><td>Extract North/South value from a coordinate object.</td></tr>
+                                <tr><td><code>coordinategetwe[coords]</code></td><td>Extract East/West value.</td></tr>
+                                <tr><td><code>coordinategetz[coords]</code></td><td>Extract Z (altitude).</td></tr>
+                                <tr><td><code>coordinatetostring[coords]</code></td><td>Format as <code>"N/S, E/W"</code> string.</td></tr>
+                                <tr><td><code>coordinateparse[string]</code></td><td>Parse a <code>"N/S, E/W"</code> string into a coordinate object.</td></tr>
+                                <tr><td><code>coordinatedistanceflat[c1, c2]</code></td><td>Flat 2D distance between two coordinate objects.</td></tr>
+                                <tr><td><code>coordinatedistancewithz[c1, c2]</code></td><td>3D distance between two coordinate objects.</td></tr>
+                                <tr><td><code>getplayerlandcell[]</code></td><td>Current landcell as a hex string.</td></tr>
+                                <tr><td><code>getplayerlandblock[]</code></td><td>Current landblock ID.</td></tr>
+                                <tr><td><code>getcellid[]</code></td><td>Current cell as a <code>"0xHHHHHHHH"</code> string.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 example-block">
+                        <p class="text-xs font-bold uppercase tracking-widest text-accent mb-2">Distance check to a fixed point</p>
+                        <div class="expr-block">coordinatedistanceflat[getplayercoordinates[], coordinateparse[3.1N, 19.2E]] &lt; 10</div>
+                        <p class="text-xs text-textSecondary mt-2">True when the player is within 10 units of that coordinate.</p>
+                    </div>
+                </section>
+
+                <!-- WORLD STATE -->
+                <section id="worldstate" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-globe"></i> World State
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>getcombatstate[]</code></td><td>Returns <code>"Peace"</code>, <code>"Melee"</code>, <code>"Missile"</code>, or <code>"Magic"</code>.</td></tr>
+                                <tr><td><code>setcombatstate[state]</code></td><td>Switch to the named combat mode.</td></tr>
+                                <tr><td><code>getbusystate[]</code></td><td>True if AC is showing the busy hourglass.</td></tr>
+                                <tr><td><code>getequippedweapontype[]</code></td><td>Returns <code>"None"</code>, <code>"Melee"</code>, <code>"Missile"</code>, or <code>"Wand"</code>.</td></tr>
+                                <tr><td><code>vitae[]</code></td><td>Current vitae penalty as integer 0–100.</td></tr>
+                                <tr><td><code>isportaling[]</code></td><td>True if currently in a portal transition.</td></tr>
+                                <tr><td><code>getworldname[]</code></td><td>Current server/world name string.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- WORLD OBJECTS -->
+                <section id="wobject" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-cubes"></i> World Objects
+                    </h2>
+                    <p class="text-textSecondary mb-5 leading-relaxed">
+                        Find-functions return an object <em>handle</em>. Pass that handle into get-functions
+                        to read properties. Always validate a handle with <code>wobjectisvalid[h]</code> before
+                        using it — objects disappear when killed or picked up.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Finding Objects</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>wobjectfindnearestmonster[]</code></td><td>Nearest attackable creature handle.</td></tr>
+                                    <tr><td><code>wobjectfindnearestdoor[]</code></td><td>Nearest door handle.</td></tr>
+                                    <tr><td><code>wobjectfindnearestbyobjectclass[classId]</code></td><td>Nearest object of the given class ID.</td></tr>
+                                    <tr><td><code>wobjectfindnearestbytemplatetype[wcid]</code></td><td>Nearest by WCID (template type).</td></tr>
+                                    <tr><td><code>wobjectfindnearestbynameandobjectclass[classId, rx]</code></td><td>Nearest whose name matches a regex and has the given class.</td></tr>
+                                    <tr><td><code>wobjectfindalllandscape[]</code></td><td>All landscape objects as a list of handles.</td></tr>
+                                    <tr><td><code>wobjectfindallinventory[]</code></td><td>All inventory item handles.</td></tr>
+                                    <tr><td><code>wobjectfindbyid[id]</code></td><td>Find a specific object by numeric ID.</td></tr>
+                                    <tr><td><code>wobjectfindininventorybyname[name]</code></td><td>Exact-name inventory lookup.</td></tr>
+                                    <tr><td><code>wobjectfindininventorybynamerx[rx]</code></td><td>Regex-name inventory lookup.</td></tr>
+                                    <tr><td><code>wobjectgetplayer[]</code></td><td>Handle to the player character.</td></tr>
+                                    <tr><td><code>wobjectgetselection[]</code></td><td>Handle to the currently selected object.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Reading from a Handle</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>wobjectisvalid[h]</code></td><td>True if the handle is still valid. Always check this first.</td></tr>
+                                    <tr><td><code>wobjectgetname[h]</code></td><td>Object's display name string.</td></tr>
+                                    <tr><td><code>wobjectgetid[h]</code></td><td>Object's numeric ID.</td></tr>
+                                    <tr><td><code>wobjectgethealth[h]</code></td><td>Health as a 0–1 ratio.</td></tr>
+                                    <tr><td><code>wobjectgetphysicscoordinates[h]</code></td><td>Position as a coordinate object.</td></tr>
+                                    <tr><td><code>wobjectgetobjectclass[h]</code></td><td>Object class ID. Alias: <code>wobjectgetobjclass[h]</code>.</td></tr>
+                                    <tr><td><code>wobjectgettemplatetype[h]</code></td><td>WCID (template type) integer.</td></tr>
+                                    <tr><td><code>wobjectgetintprop[h, prop]</code></td><td>Integer property by STypeInt ID.</td></tr>
+                                    <tr><td><code>wobjectgetdoubleprop[h, prop]</code></td><td>Double property.</td></tr>
+                                    <tr><td><code>wobjectgetboolprop[h, prop]</code></td><td>Boolean property.</td></tr>
+                                    <tr><td><code>wobjectgetstringprop[h, prop]</code></td><td>String property.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Creature Profiles</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>creaturehasprofile[h]</code></td><td>True if a damage profile is stored for this creature.</td></tr>
+                                    <tr><td><code>creaturegetmaxhealth[h]</code></td><td>Creature's max HP from the profile database.</td></tr>
+                                    <tr><td><code>creaturegetresist[h, type]</code></td><td>Resistance for the given damage type.</td></tr>
+                                    <tr><td><code>creaturegetweakest[h]</code></td><td>Name of the damage type this creature is most vulnerable to.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Heading</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>getheadingto[h]</code></td><td>Compass heading (degrees) from player to the object.</td></tr>
+                                    <tr><td><code>getheading[h]</code></td><td>The object's own current facing heading.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 example-block">
+                        <p class="text-xs font-bold uppercase tracking-widest text-accent mb-2">Check if a monster is nearby</p>
+                        <div class="expr-block">wobjectisvalid[wobjectfindnearestmonster[]]</div>
+                        <p class="text-xs text-textSecondary mt-2">True when there is at least one attackable creature in range.</p>
+                    </div>
+                </section>
+
+                <!-- SPELLS -->
+                <section id="spells" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Spells
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>getisspellknown[spellId]</code></td><td>True if the character knows this spell ID.</td></tr>
+                                <tr><td><code>getcancastspell_hunt[spellId]</code></td><td>True if components are available for a combat cast.</td></tr>
+                                <tr><td><code>getcancastspell_buff[spellId]</code></td><td>True if components available for a buff cast.</td></tr>
+                                <tr><td><code>getspellexpiration[spellId]</code></td><td>Seconds until this buff expires. Returns 0 if not currently active.</td></tr>
+                                <tr><td><code>getspellexpirationbyname[name]</code></td><td>Same but looked up by spell name string.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 example-block">
+                        <p class="text-xs font-bold uppercase tracking-widest text-accent mb-2">Trigger buff state when a key spell is about to expire</p>
+                        <div class="expr-block">getspellexpiration[1234] &lt; 30</div>
+                        <p class="text-xs text-textSecondary mt-2">True when spell ID 1234 has fewer than 30 seconds left.</p>
+                    </div>
+                </section>
+
+                <!-- FELLOWSHIP -->
+                <section id="fellowship" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-users"></i> Fellowship
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>getfellowshipname[]</code></td><td>Fellowship name, or empty string if not in one.</td></tr>
+                                <tr><td><code>getfellowshipcount[]</code></td><td>Number of members.</td></tr>
+                                <tr><td><code>getfellowshipleaderid[]</code></td><td>Object ID of the fellowship leader.</td></tr>
+                                <tr><td><code>getfellowshipisleader[]</code></td><td>True if you are the leader.</td></tr>
+                                <tr><td><code>getfellowshiplocked[]</code></td><td>True if the fellowship is locked.</td></tr>
+                                <tr><td><code>getfellowshipisopen[]</code></td><td>True if open to new members.</td></tr>
+                                <tr><td><code>getfellowshipisfull[]</code></td><td>True if at capacity.</td></tr>
+                                <tr><td><code>getfellowid[n]</code></td><td>Object ID of the n-th member (0-indexed).</td></tr>
+                                <tr><td><code>getfellowname[n]</code></td><td>Name of the n-th member.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- QUESTS -->
+                <section id="quests" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-scroll"></i> Quest Flags
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>testquestflag[key]</code></td><td>True if the named quest flag is set.</td></tr>
+                                <tr><td><code>getqueststatus[key]</code></td><td>Returns the quest status string.</td></tr>
+                                <tr><td><code>getquestktprogress[key]</code></td><td>Current kill-task progress count.</td></tr>
+                                <tr><td><code>getquestktrequired[key]</code></td><td>Required kill count for the task.</td></tr>
+                                <tr><td><code>refreshquests[]</code></td><td>Request a quest refresh from the server.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ACTIONS -->
+                <section id="actions" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-bolt"></i> Actions
+                    </h2>
+                    <p class="text-textSecondary mb-5 text-sm">
+                        These functions trigger in-game actions rather than reading state.
+                        Use in meta <em>action</em> cells, not in conditions.
+                    </p>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>actiontryselect[h]</code></td><td>Select a world object by handle.</td></tr>
+                                <tr><td><code>actiontryuseitem[h]</code></td><td>Use/activate an object by handle.</td></tr>
+                                <tr><td><code>actiontryapplyitem[use, on]</code></td><td>Apply one item handle to another (e.g. key on lock).</td></tr>
+                                <tr><td><code>actiontrygiveitem[item, target]</code></td><td>Give an item handle to an NPC or player handle.</td></tr>
+                                <tr><td><code>actiontryequipanywand[]</code></td><td>Equip any wand found in inventory.</td></tr>
+                                <tr><td><code>actiontrycastbyid[spellId]</code></td><td>Cast spell on the current target.</td></tr>
+                                <tr><td><code>actiontrycastbyidontarget[spellId, h]</code></td><td>Cast spell on a specific object handle.</td></tr>
+                                <tr><td><code>actiontrygiveprofile[lootfile, targetname]</code></td><td>Give all Keep items from a loot profile to the named NPC.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 space-y-3">
+                        <div class="px-5 py-3 bg-panel border border-border rounded-xl">
+                            <p class="text-xs font-bold uppercase tracking-widest text-textSecondary mb-3">Salvage (UST)</p>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>ustopen[]</code></td><td>Open the Ust salvaging UI.</td></tr>
+                                    <tr><td><code>ustadd[obj]</code></td><td>Add an item handle to the Ust queue.</td></tr>
+                                    <tr><td><code>ustsalvage[]</code></td><td>Trigger the salvage operation.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ITEM COUNTS -->
+                <section id="items" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-box"></i> Item Counts
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>getitemcountininventorybyname[name]</code></td><td>Count of items with an exact matching name.</td></tr>
+                                <tr><td><code>getitemcountininventorybynamerx[rx]</code></td><td>Count of items whose name matches a regex.</td></tr>
+                                <tr><td><code>getinventorycountbytemplatetype[wcid]</code></td><td>Count of items with the given WCID.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- TIME -->
+                <section id="time" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-clock"></i> Time
+                    </h2>
+                    <div class="space-y-5">
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Dereth In-Game Time</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>getisday[]</code></td><td>True if currently daytime in Dereth.</td></tr>
+                                    <tr><td><code>getisnight[]</code></td><td>True if currently nighttime.</td></tr>
+                                    <tr><td><code>getminutesuntilday[]</code></td><td>Real minutes until next sunrise.</td></tr>
+                                    <tr><td><code>getminutesuntilnight[]</code></td><td>Real minutes until next sunset.</td></tr>
+                                    <tr><td><code>getgamehour[]</code></td><td>Current in-game hour (0–23).</td></tr>
+                                    <tr><td><code>getgamehourname[n]</code></td><td>Display name for in-game hour <code>n</code>.</td></tr>
+                                    <tr><td><code>getgameday[]</code></td><td>Current in-game day number.</td></tr>
+                                    <tr><td><code>getgamemonth[]</code></td><td>Current in-game month number.</td></tr>
+                                    <tr><td><code>getgamemonthname[n]</code></td><td>Display name for in-game month <code>n</code>.</td></tr>
+                                    <tr><td><code>getgameyear[]</code></td><td>Current in-game year.</td></tr>
+                                    <tr><td><code>getgameticks[]</code></td><td>Raw game tick counter.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Real-World Time</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>getunixtime[]</code></td><td>Unix timestamp in seconds.</td></tr>
+                                    <tr><td><code>getdatetimelocal[format]</code></td><td>Formatted local time, e.g. <code>getdatetimelocal[HH:mm:ss]</code>.</td></tr>
+                                    <tr><td><code>getdatetimeutc[format]</code></td><td>Formatted UTC time.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTROL FLOW -->
+                <section id="control" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-code-branch"></i> Control Flow &amp; Conversion
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>iif[condition, trueVal, falseVal]</code></td><td>Inline if. Lazy — only evaluates the branch that is taken.</td></tr>
+                                <tr><td><code>exec[text]</code></td><td>Evaluate a string as an expression at runtime.</td></tr>
+                                <tr><td><code>delayexec[ms, text]</code></td><td>Evaluate an expression string after the given milliseconds.</td></tr>
+                                <tr><td><code>tostring[v]</code></td><td>Convert any value to its string representation.</td></tr>
+                                <tr><td><code>istrue[v]</code></td><td>True if the value is truthy.</td></tr>
+                                <tr><td><code>isfalse[v]</code></td><td>True if the value is falsy.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 example-block">
+                        <p class="text-xs font-bold uppercase tracking-widest text-accent mb-2">Branch on weapon type</p>
+                        <div class="expr-block">iif[getequippedweapontype[] == Wand, 1, 0]</div>
+                    </div>
+                </section>
+
+                <!-- MATH -->
+                <section id="math" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-square-root-variable"></i> Math &amp; Numbers
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>randint[min, max]</code></td><td>Random integer, inclusive of both bounds.</td></tr>
+                                <tr><td><code>floor[n]</code></td><td>Round down to integer.</td></tr>
+                                <tr><td><code>ceiling[n]</code></td><td>Round up to integer.</td></tr>
+                                <tr><td><code>round[n]</code></td><td>Round to nearest integer.</td></tr>
+                                <tr><td><code>abs[n]</code></td><td>Absolute value.</td></tr>
+                                <tr><td><code>sqrt[n]</code></td><td>Square root.</td></tr>
+                                <tr><td><code>sin[n]</code></td><td>Sine (radians).</td></tr>
+                                <tr><td><code>cos[n]</code></td><td>Cosine (radians).</td></tr>
+                                <tr><td><code>tan[n]</code></td><td>Tangent (radians).</td></tr>
+                                <tr><td><code>atan2[y, x]</code></td><td>Two-argument arctangent (radians).</td></tr>
+                                <tr><td><code>hexstr[n]</code></td><td>Integer to hex string.</td></tr>
+                                <tr><td><code>cnumber[s]</code></td><td>Parse a string to number.</td></tr>
+                                <tr><td><code>cstr[n]</code></td><td>Number to string.</td></tr>
+                                <tr><td><code>cstrf[n, fmt]</code></td><td>Number to formatted string — e.g. <code>cstrf[3.1415, F2]</code> → <code>"3.14"</code>.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- STRINGS -->
+                <section id="strings" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-font"></i> Strings
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>strlen[s]</code></td><td>Length of string.</td></tr>
+                                <tr><td><code>ord[c]</code></td><td>Character to ASCII code.</td></tr>
+                                <tr><td><code>chr[n]</code></td><td>ASCII code to character.</td></tr>
+                                <tr><td><code>getregexmatch[text, pattern]</code></td><td>Returns first regex match in text, or empty string.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- COLLECTIONS -->
+                <section id="collections" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-list"></i> Collections
+                    </h2>
+                    <div class="space-y-5">
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Lists</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>listcreate[v1, v2, ...]</code></td><td>Create a new list with initial values.</td></tr>
+                                    <tr><td><code>listadd[L, v]</code></td><td>Append a value.</td></tr>
+                                    <tr><td><code>listinsert[L, v, i]</code></td><td>Insert at index <code>i</code>.</td></tr>
+                                    <tr><td><code>listremove[L, v]</code></td><td>Remove first occurrence of <code>v</code>.</td></tr>
+                                    <tr><td><code>listremoveat[L, i]</code></td><td>Remove item at index.</td></tr>
+                                    <tr><td><code>listgetitem[L, i]</code></td><td>Get item at index.</td></tr>
+                                    <tr><td><code>listcontains[L, v]</code></td><td>True if list contains the value.</td></tr>
+                                    <tr><td><code>listindexof[L, v]</code></td><td>Index of first occurrence, or -1.</td></tr>
+                                    <tr><td><code>listcount[L]</code></td><td>Number of items.</td></tr>
+                                    <tr><td><code>listpop[L]</code></td><td>Remove and return the last item.</td></tr>
+                                    <tr><td><code>listclear[L]</code></td><td>Remove all items.</td></tr>
+                                    <tr><td><code>listcopy[L]</code></td><td>Return a shallow copy.</td></tr>
+                                    <tr><td><code>listreverse[L]</code></td><td>Reverse in place.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Dictionaries</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>dictcreate[k1, v1, ...]</code></td><td>Create a dictionary with initial key-value pairs.</td></tr>
+                                    <tr><td><code>dictgetitem[h, key]</code></td><td>Get value for key.</td></tr>
+                                    <tr><td><code>dicthaskey[h, key]</code></td><td>True if the key exists.</td></tr>
+                                    <tr><td><code>dictkeys[h]</code></td><td>Returns a list of all keys.</td></tr>
+                                    <tr><td><code>dictvalues[h]</code></td><td>Returns a list of all values.</td></tr>
+                                    <tr><td><code>dictsize[h]</code></td><td>Number of entries.</td></tr>
+                                    <tr><td><code>dictadditem[h, key, val]</code></td><td>Add or update a key.</td></tr>
+                                    <tr><td><code>dictremovekey[h, key]</code></td><td>Remove a key.</td></tr>
+                                    <tr><td><code>dictclear[h]</code></td><td>Remove all keys.</td></tr>
+                                    <tr><td><code>dictcopy[h]</code></td><td>Return a shallow copy.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-3 border-b border-border">
+                                <p class="text-xs font-bold uppercase tracking-widest text-textSecondary">Stopwatches</p>
+                            </div>
+                            <table class="fn-table">
+                                <tbody>
+                                    <tr><td><code>stopwatchcreate[]</code></td><td>Create a stopwatch, returns a handle.</td></tr>
+                                    <tr><td><code>stopwatchstart[h]</code></td><td>Start timing.</td></tr>
+                                    <tr><td><code>stopwatchstop[h]</code></td><td>Stop timing.</td></tr>
+                                    <tr><td><code>stopwatchelapsedseconds[h]</code></td><td>Elapsed time as a float in seconds.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CHAT -->
+                <section id="chat" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-comment"></i> Chat
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>chatbox[msg]</code></td><td>Send text to the chat bar as if you typed it (can trigger slash commands).</td></tr>
+                                <tr><td><code>echo[msg, color]</code></td><td>Display a message in the chat window locally. <code>color</code> is an integer: 0=white, 5=purple, etc.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PLUGIN OPTIONS -->
+                <section id="plugin" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-2 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-plug"></i> Plugin Options (RynthAi)
+                    </h2>
+                    <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                        <table class="fn-table">
+                            <tbody>
+                                <tr><td><code>raoptget[name]</code></td><td>Read a RynthAi option by name. Alias: <code>uboptget[name]</code>.</td></tr>
+                                <tr><td><code>raoptset[name, value]</code></td><td>Write a RynthAi option. Alias: <code>uboptset[name, value]</code>.</td></tr>
+                                <tr><td><code>ragetsetting[name]</code></td><td>Read a RynthAi settings value by name.</td></tr>
+                                <tr><td><code>rasetsetting[name, val]</code></td><td>Write a RynthAi settings value.</td></tr>
+                                <tr><td><code>ragetmetastate[]</code></td><td>Returns the current meta state name string.</td></tr>
+                                <tr><td><code>rasetmetastate[state]</code></td><td>Force a transition to the named meta state.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- COMMON PATTERNS -->
+                <section id="patterns" class="section-anchor">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
+                        <i class="fa-solid fa-lightbulb"></i> Common Patterns
+                    </h2>
+                    <p class="text-textSecondary mb-8 leading-relaxed">
+                        Real meta scripts composed from the functions above. These are the patterns
+                        that come up most frequently in combat, buffing, and navigation metas.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-heart text-red-400"></i>
+                                <span class="font-bold text-sm">Health below 40% — go to heal state</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">getcharvital_current[1] * 100 / getcharvital_buffedmax[1] &lt; 40</div>
+                                <p class="text-textSecondary text-sm">Current HP as a percentage of buffed max. Works for Stamina (2) and Mana (3) the same way.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-database text-primary"></i>
+                                <span class="font-bold text-sm">Save kill count persistently across sessions</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">setpvar[kills, getpvar[kills] + 1]</div>
+                                <p class="text-textSecondary text-sm">Reads the current count, adds one, and writes it back to disk. Survives logout. Touch the var first on meta start to seed it at 0 if absent.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-wand-magic-sparkles text-accent"></i>
+                                <span class="font-bold text-sm">Buff state when any key spell is expiring</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">getspellexpiration[1234] &lt; 30 || getspellexpiration[5678] &lt; 30</div>
+                                <p class="text-textSecondary text-sm">True when either spell has less than 30 seconds left. Chain as many spells as needed with <code>||</code>.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-cubes text-primary"></i>
+                                <span class="font-bold text-sm">Is there a monster in range?</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">wobjectisvalid[wobjectfindnearestmonster[]]</div>
+                                <p class="text-textSecondary text-sm">The find returns a handle; <code>wobjectisvalid</code> returns true only if a real object was found.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-box text-accent"></i>
+                                <span class="font-bold text-sm">Inventory full — trigger town run</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">getfreeitemslots[] &lt; 5 || getcharburden[0] &gt; 90</div>
+                                <p class="text-textSecondary text-sm">True when fewer than 5 free item slots, or burden exceeds 90%. Either condition triggers the action.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-wand-magic text-primary"></i>
+                                <span class="font-bold text-sm">Branch on equipped weapon type</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">iif[getequippedweapontype[] == Wand, doMagicAction[], doMeleeAction[]]</div>
+                                <p class="text-textSecondary text-sm"><code>iif</code> is lazy — only the matched branch evaluates.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-chart-line text-accent"></i>
+                                <span class="font-bold text-sm">Save an XP checkpoint</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">setpvar[xp_checkpoint, getcharquadprop[273]]</div>
+                                <p class="text-textSecondary text-sm">STypeQuad 273 is total XP. Store it on state entry, then compare later with <code>getcharquadprop[273] - getpvar[xp_checkpoint]</code> for XP earned this session.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-5 py-4 border-b border-border flex items-center gap-3">
+                                <i class="fa-solid fa-map-pin text-primary"></i>
+                                <span class="font-bold text-sm">Print player position to chat</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="expr-block mb-3">echo[coordinatetostring[getplayercoordinates[]], 0]</div>
+                                <p class="text-textSecondary text-sm">Formats the player's coordinates as a readable string and prints it locally in white chat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-12 border-t border-border mt-8">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthAi Expression Language - 80+ Variables</p>
+            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthAi Expression Engine Reference</p>
+            <p class="text-textSecondary/40 text-[10px] uppercase mt-2">Asheron's Call is a trademark of WB Games. RynthCore is an independent project.</p>
         </div>
     </footer>
+
 </body>
 </html>

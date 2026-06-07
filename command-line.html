@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Command Line - RynthAi Documentation</title>
+    <title>Command Line - RynthCore Documentation</title>
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -27,11 +27,28 @@
         body { background-color: #0B1218; color: #EAF0F4; font-family: 'Inter', sans-serif; }
         .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(38, 193, 166, 0.05) 1px, transparent 0); background-size: 40px 40px; }
         code { background: #1a2e38; padding: 0.2rem 0.4rem; border-radius: 4px; color: #26C1A6; font-family: monospace; }
-        .cmd-row { display: grid; grid-template-columns: 200px 1fr; gap: 1rem; align-items: start; padding: 1rem; border-bottom: 1px solid #243742; }
+        .cmd-row { display: grid; grid-template-columns: 260px 1fr; gap: 1rem; align-items: start; padding: 1rem; border-bottom: 1px solid #243742; }
         .cmd-row:last-child { border-bottom: none; }
+        /* Compact variant table used for give/use families */
+        .variant-table { width: 100%; border-collapse: collapse; }
+        .variant-table td { padding: 0.45rem 0.75rem; vertical-align: top; border-bottom: 1px solid #243742; font-size: 0.875rem; }
+        .variant-table tr:last-child td { border-bottom: none; }
+        .variant-table td:first-child { font-family: monospace; color: #26C1A6; background: #1a2e38; border-radius: 4px; white-space: nowrap; width: 1%; padding-right: 1rem; }
+        .variant-table td:last-child { color: #9AA8B3; }
+        /* Option pill list */
+        .opt-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.75rem 1rem; border-bottom: 1px solid #243742; }
+        .opt-pill { background: #1a2e38; color: #26C1A6; font-family: monospace; font-size: 0.78rem; padding: 0.2rem 0.55rem; border-radius: 4px; }
+        /* Section anchor offset */
+        section[id] { scroll-margin-top: 6rem; }
+        /* TOC sidebar */
+        .toc-link { display: block; padding: 0.3rem 0.75rem; font-size: 0.8rem; color: #9AA8B3; border-left: 2px solid #243742; transition: all 0.15s; text-decoration: none; }
+        .toc-link:hover, .toc-link.active { color: #26C1A6; border-left-color: #26C1A6; }
+        .toc-group { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #4a6070; padding: 0.75rem 0.75rem 0.2rem; }
     </style>
 </head>
 <body class="antialiased bg-grid">
+
+    <!-- NAV -->
     <nav class="fixed w-full z-50 top-0 bg-dark/80 backdrop-blur-md border-b border-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
@@ -54,344 +71,903 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-5xl font-black mb-4 tracking-tighter">COMMAND LINE</h1>
-        <p class="text-xl text-textSecondary mb-12">Control RynthAi and the RynthCore host directly from the game chat using the <code>/ra</code> prefix.</p>
+    <div class="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-8">
 
-        <div class="space-y-16">
-            <!-- Core Controls -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-play"></i> Core Controls
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra start | on</code>
-                        <span class="text-textSecondary">Starts the macro engine and enables all active subsystems.</span>
+        <!-- SIDEBAR TOC -->
+        <aside class="hidden xl:block w-52 shrink-0">
+            <div class="sticky top-28">
+                <p class="text-xs uppercase tracking-widest text-textSecondary mb-3 px-1">On this page</p>
+                <nav class="space-y-0">
+                    <div class="toc-group">/ra — RynthAi</div>
+                    <a href="#bot-control" class="toc-link">Bot Control</a>
+                    <a href="#diagnostics" class="toc-link">Diagnostics</a>
+                    <a href="#buffing" class="toc-link">Buffing</a>
+                    <a href="#casting" class="toc-link">Casting</a>
+                    <a href="#navigation" class="toc-link">Navigation</a>
+                    <a href="#geometry" class="toc-link">Geometry &amp; Raycasting</a>
+                    <a href="#loot" class="toc-link">Loot</a>
+                    <a href="#corpses" class="toc-link">Corpses</a>
+                    <a href="#fellowship" class="toc-link">Fellowship</a>
+                    <a href="#give" class="toc-link">Give Items</a>
+                    <a href="#use" class="toc-link">Use Items</a>
+                    <a href="#select" class="toc-link">Select Objects</a>
+                    <a href="#jump" class="toc-link">Jump</a>
+                    <a href="#settings-profiles" class="toc-link">Settings Profiles</a>
+                    <a href="#meta-vars" class="toc-link">Meta / Variables</a>
+                    <a href="#misc" class="toc-link">Misc</a>
+                    <div class="toc-group">/mt — Mag-Tools</div>
+                    <a href="#mt-options" class="toc-link">Options</a>
+                    <a href="#mt-actions" class="toc-link">Actions</a>
+                    <div class="toc-group">/ub — UtilityBelt</div>
+                    <a href="#ub" class="toc-link">Jump</a>
+                    <div class="toc-group">Host &amp; Plugins</div>
+                    <a href="#rc" class="toc-link">/rc RynthCore</a>
+                    <a href="#rnav" class="toc-link">/rnav RynthNav</a>
+                    <a href="#rv" class="toc-link">/rv RynthVision</a>
+                    <a href="#juice" class="toc-link">/juice RynthJuice</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="min-w-0 flex-1">
+            <h1 class="text-5xl font-black mb-4 tracking-tighter">COMMAND LINE</h1>
+            <p class="text-xl text-textSecondary mb-2">Full command reference for RynthCore, RynthAi, and companion plugins.</p>
+            <p class="text-sm text-textSecondary mb-12">Commands are typed into the in-game chat box. The <code>/ra</code> prefix is consumed by RynthAi before AC sees the line.</p>
+
+            <div class="space-y-16">
+
+                <!-- ══════════════════════════════════════════════════
+                     /ra — RynthAi
+                ══════════════════════════════════════════════════ -->
+                <div>
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="h-px flex-1 bg-border"></div>
+                        <span class="text-2xl font-black tracking-tighter text-primary">/ra &mdash; RynthAi</span>
+                        <div class="h-px flex-1 bg-border"></div>
                     </div>
-                    <div class="cmd-row">
-                        <code>/ra stop | off</code>
-                        <span class="text-textSecondary">Stops the macro engine, clearing navigation and combat targets.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra status</code>
-                        <span class="text-textSecondary">Prints current engine status, state, and loaded profiles.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra ui</code>
-                        <span class="text-textSecondary">Toggles the RynthAi Avalonia panel visibility.</span>
-                    </div>
+
+                    <!-- Bot Control -->
+                    <section id="bot-control" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-play"></i> Bot Control
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra power &lt;0-100|auto&gt;</code>
+                                <span class="text-textSecondary">Set both melee and missile attack power (0–100). <code>auto</code> restores full power. Bare <code>/ra power</code> prints the current value.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra forcebuff</code>
+                                <span class="text-textSecondary">Force-recast all buffs immediately, regardless of timer state.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra cancelforcebuff</code>
+                                <span class="text-textSecondary">Cancel an in-progress force-rebuff sequence.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra clearbusy</code>
+                                <span class="text-textSecondary">Force-clear all busy state — engine busy count, plugin busy count, combat busy, and buff counters. Use when the bot is stuck.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra panic</code>
+                                <span class="text-textSecondary">Full AC reset: cancel attack, switch to peace mode, stop all motion, clear every busy count. Emergency stop.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra combat</code>
+                                <span class="text-textSecondary">Dump a full snapshot of the combat state machine to chat — current state, target, busy flags, timers.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Diagnostics -->
+                    <section id="diagnostics" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-wrench"></i> Diagnostics
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra busyinfo</code>
+                                <span class="text-textSecondary">Dump busy counts, current corpse/loot state, and give queue contents.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra cache</code>
+                                <span class="text-textSecondary">Object cache summary — creature count, inventory item count, last update timestamps.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra cache2</code>
+                                <span class="text-textSecondary">Raw object cache stats plus a direct inventory snapshot from the AC object graph.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra attackable</code>
+                                <span class="text-textSecondary">Check whether the current target qualifies as attackable under the bot's monster rules.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra wielded</code>
+                                <span class="text-textSecondary">Show currently wielded items via the inventory cache.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra scan</code>
+                                <span class="text-textSecondary">Show all nearby monsters with their LOS status and distance.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra dumpprops</code>
+                                <span class="text-textSecondary">Dump player int, bool, and string properties to the log.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra dumpinv</code>
+                                <span class="text-textSecondary">Dump all inventory items with GUIDs, names, and object classes.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Buffing -->
+                    <section id="buffing" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-shield"></i> Buffing
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra forcebuff</code>
+                                <span class="text-textSecondary">Force a full rebuff immediately — same as the Bot Control command.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra cancelforcebuff</code>
+                                <span class="text-textSecondary">Cancel an in-progress rebuff.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra buffs</code>
+                                <span class="text-textSecondary">Show active buff timers — spell name, tier, time remaining.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra buffs item</code>
+                                <span class="text-textSecondary">Show item-spell buff debug output — which item buffs are tracked and their expiry.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra buffs tiers</code>
+                                <span class="text-textSecondary">Show per-buff tier resolution debug — how each spell's tier was selected from the spellbook.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra bufftest</code>
+                                <span class="text-textSecondary">Toggle the enchant-registry snapshot diagnostic — logs each registry read to the RynthCore log.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Casting -->
+                    <section id="casting" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-wand-sparkles"></i> Casting
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra cast &lt;spellId&gt;</code>
+                                <span class="text-textSecondary">Cast a spell by numeric ID on the current target. Useful for testing specific spell IDs.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Navigation -->
+                    <section id="navigation" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-route"></i> Navigation
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra navdebug</code>
+                                <span class="text-textSecondary">Show nav coordinate, current route waypoint, drift distance, and heading error.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra addnavpt</code>
+                                <span class="text-textSecondary">Append a waypoint at the current position to the loaded <code>.nav</code> file and auto-save it.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra dunnav &lt;NS&gt; &lt;EW&gt;</code>
+                                <span class="text-textSecondary">Run an A* pathfind to a dungeon coordinate without needing a pre-baked nav file. Prints path legs to chat.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra dunnav-patrol</code>
+                                <span class="text-textSecondary">Start a circular hunt patrol through the entire current dungeon, visiting every reachable cell.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Geometry & Raycasting -->
+                    <section id="geometry" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-cube"></i> Geometry &amp; Raycasting
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra raycast</code>
+                                <span class="text-textSecondary">Print raycasting system initialization status — whether the BSP hook is installed and hot.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra lostest</code>
+                                <span class="text-textSecondary">LOS test to the current target using the default weapon type.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra lostest &lt;mode&gt;</code>
+                                <span class="text-textSecondary">LOS test with an explicit mode: <code>linear</code>, <code>bow</code>, <code>crossbow</code>, <code>atlatl</code>, or <code>magic</code>. Each uses the appropriate arc/cone model.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra landtest</code>
+                                <span class="text-textSecondary">Query terrain heightmap for the current landblock and print a grid of sample heights.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra rayland</code>
+                                <span class="text-textSecondary">Fire landscape raycasts — one downward and one in each of 4 cardinal directions, 300 m each — and print hit distances.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra buildinfo</code>
+                                <span class="text-textSecondary">Print geometry volume counts and list any buildings within range of the player.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Loot -->
+                    <section id="loot" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-bag-shopping"></i> Loot
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra lootparse</code>
+                                <span class="text-textSecondary">Inspect the currently loaded loot profile — rule count, file path, parse errors.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra lootparse &lt;path&gt;</code>
+                                <span class="text-textSecondary">Parse and inspect a specific <code>.utl</code> loot profile without loading it as active.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra lootcheckinv</code>
+                                <span class="text-textSecondary">Test the active loot profile against every item in the inventory cache and print each result.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra lootcheckinv &lt;path&gt;</code>
+                                <span class="text-textSecondary">Same test using a specified profile path instead of the active one.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra lootcheck</code>
+                                <span class="text-textSecondary">Classify the currently selected item against the active loot profile and print Keep/Leave/Sell.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra lootcheck on|off</code>
+                                <span class="text-textSecondary">Toggle auto-classify mode — when on, each item you select is immediately classified and the result is shown in chat.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Corpses -->
+                    <section id="corpses" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-skull"></i> Corpses
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra corpseinfo</code>
+                                <span class="text-textSecondary">Show corpse range, how many corpses are tracked, and the open/loot diagnostic state.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra corpsecheck</code>
+                                <span class="text-textSecondary">Explain step-by-step whether the selected corpse would be looted — range, ownership, completed set, loot profile.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra corpseopen</code>
+                                <span class="text-textSecondary">Force the nearest eligible corpse through the open flow immediately, bypassing the timer.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Fellowship -->
+                    <section id="fellowship" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-users"></i> Fellowship
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra fellow</code>
+                                <span class="text-textSecondary">Fellowship diagnostics: member list, leader, open/locked status, XP-share state. Alias: <code>/ra fellowship</code>.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra fellowinfo</code>
+                                <span class="text-textSecondary">Fellowship tracker state — how many members are tracked, last update tick, any stale entries.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Give Items -->
+                    <section id="give" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-hand-holding-heart"></i> Give Items
+                        </h2>
+                        <p class="text-sm text-textSecondary mb-4">Transfer items to another player. All variants accept an optional <code>[count]</code> before the item name. The item and player matching matrix:</p>
+
+                        <!-- One-shot give family -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden mb-4">
+                            <div class="px-4 py-2 bg-dark/40 border-b border-border">
+                                <span class="text-xs uppercase tracking-widest text-textSecondary">One-shot give (single matching stack)</span>
+                            </div>
+                            <table class="variant-table w-full">
+                                <tr>
+                                    <td>/ra give [count] &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Exact item name, exact player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra givep [count] &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Partial item name, exact player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra givexp [count] &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Exact item name, partial player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra givepp [count] &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Partial item name, partial player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra giver [count] &lt;regex&gt; to &lt;player&gt;</td>
+                                    <td>Regex item match, exact player name</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- All-match give family -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden mb-4">
+                            <div class="px-4 py-2 bg-dark/40 border-b border-border">
+                                <span class="text-xs uppercase tracking-widest text-textSecondary">All-match give (every matching stack, throttled queue) — append <code>stop</code> to cancel</span>
+                            </div>
+                            <table class="variant-table w-full">
+                                <tr>
+                                    <td>/ra givea &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Exact item name, exact player name — transfers all matching stacks</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra giveap &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Partial item name, exact player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra giveaxp &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Exact item name, partial player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra giveapp &lt;item&gt; to &lt;player&gt;</td>
+                                    <td>Partial item name, partial player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra givear &lt;regex&gt; to &lt;player&gt;</td>
+                                    <td>Regex item match, exact player name</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Loot-profile give -->
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="px-4 py-2 bg-dark/40 border-b border-border">
+                                <span class="text-xs uppercase tracking-widest text-textSecondary">Loot-profile give (transfer all "Keep" items matching a .utl profile)</span>
+                            </div>
+                            <table class="variant-table w-full">
+                                <tr>
+                                    <td>/ra ig &lt;profile&gt; to &lt;player&gt;</td>
+                                    <td>Give all "Keep" items from the named loot profile, exact player name</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra igp &lt;profile&gt; to &lt;player&gt;</td>
+                                    <td>Same, partial player name match</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Use Items -->
+                    <section id="use" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-hand-pointer"></i> Use Items
+                        </h2>
+                        <p class="text-sm text-textSecondary mb-4">Use an item on yourself or on a second target. Scope selects whether to search inventory, the landscape, or both. Matching is exact or partial.</p>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <table class="variant-table w-full">
+                                <tr>
+                                    <td>/ra use &lt;name&gt; [on &lt;name2&gt;]</td>
+                                    <td>Exact name — inventory + landscape. Optional <code>on &lt;name2&gt;</code> uses item on a second object.</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra usei &lt;name&gt;</td>
+                                    <td>Exact name — inventory only</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra usel &lt;name&gt;</td>
+                                    <td>Exact name — landscape only</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra usep &lt;name&gt;</td>
+                                    <td>Partial name — inventory + landscape</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra useip &nbsp;/&nbsp; /ra usepi</td>
+                                    <td>Partial name — inventory only</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra uselp &nbsp;/&nbsp; /ra usepl</td>
+                                    <td>Partial name — landscape only</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Select Objects -->
+                    <section id="select" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-crosshairs"></i> Select Objects
+                        </h2>
+                        <p class="text-sm text-textSecondary mb-4">Same scope/matching matrix as Use, but selects the object rather than using it. Useful for targeting specific landscape objects.</p>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <table class="variant-table w-full">
+                                <tr>
+                                    <td>/ra select &lt;name&gt;</td>
+                                    <td>Exact name — inventory + landscape</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra selecti &lt;name&gt;</td>
+                                    <td>Exact name — inventory only</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra selectl &lt;name&gt;</td>
+                                    <td>Exact name — landscape only</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra selectp &lt;name&gt;</td>
+                                    <td>Partial name — inventory + landscape</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra selectip &lt;name&gt;</td>
+                                    <td>Partial name — inventory only</td>
+                                </tr>
+                                <tr>
+                                    <td>/ra selectlp &lt;name&gt;</td>
+                                    <td>Partial name — landscape only</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Jump -->
+                    <section id="jump" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-person-running"></i> Jump
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra jump[swzxc] [heading] [holdtime]</code>
+                                <span class="text-textSecondary">
+                                    Jump with optional direction keys and facing. Letter suffixes select keys held during the jump:
+                                    <code>s</code> = run, <code>w</code> = forward, <code>x</code> = back, <code>z</code> = strafe left, <code>c</code> = strafe right.
+                                    <code>heading</code> is 0–360 degrees. <code>holdtime</code> is milliseconds.
+                                    <br><span class="text-xs mt-1 block">Example: <code>/ra jumpsw 180 200</code> — hold run+forward, face south, for 200 ms.</span>
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Settings Profiles -->
+                    <section id="settings-profiles" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-sliders"></i> Settings Profiles
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra settings savechar &lt;name&gt;</code>
+                                <span class="text-textSecondary">Save the current settings to a named per-character profile on disk.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra settings loadchar &lt;name&gt;</code>
+                                <span class="text-textSecondary">Load a named per-character settings profile and apply it immediately.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Meta / Variables -->
+                    <section id="meta-vars" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-diagram-project"></i> Meta / Variables
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra mexec &lt;expression&gt;</code>
+                                <span class="text-textSecondary">Evaluate a meta expression inline and print the result. See the <a href="expressions.html" class="text-primary hover:underline">Expressions</a> page for syntax.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra listvars</code>
+                                <span class="text-textSecondary">List all session variables (cleared on logout).</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra listpvars</code>
+                                <span class="text-textSecondary">List all persistent variables (survive logout, saved to disk).</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra listgvars</code>
+                                <span class="text-textSecondary">List all global variables (shared across characters on the same account).</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Misc -->
+                    <section id="misc" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-ellipsis"></i> Misc
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ra mapdump</code>
+                                <span class="text-textSecondary">Dump all landscape objects in the current landblock to the RynthCore log (GUIDs, names, positions).</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/ra help</code>
+                                <span class="text-textSecondary">Print the command list to chat.</span>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
 
-            <!-- Navigation & Movement -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-route"></i> Navigation & Movement
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra nav load &lt;file&gt;</code>
-                        <span class="text-textSecondary">Loads a VTank-compatible <code>.nav</code> route file.</span>
+                <!-- ══════════════════════════════════════════════════
+                     /mt — Mag-Tools Compatibility
+                ══════════════════════════════════════════════════ -->
+                <div>
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="h-px flex-1 bg-border"></div>
+                        <span class="text-2xl font-black tracking-tighter text-primary">/mt &mdash; Mag-Tools Compatibility</span>
+                        <div class="h-px flex-1 bg-border"></div>
                     </div>
-                    <div class="cmd-row">
-                        <code>/ra addnavpt</code>
-                        <span class="text-textSecondary">Adds a waypoint at your current location to the active route.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra reverseroute &lt;true|false&gt;</code>
-                        <span class="text-textSecondary">Reverses the direction of waypoint traversal.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra reverseroutequery</code>
-                        <span class="text-textSecondary">Displays current route reversal status.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra jump[swzxc] &lt;heading&gt; [holdtime]</code>
-                        <span class="text-textSecondary">Executes jump with direction keys: s=shift, w=forward, z=left, x=back, c=right.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra tapjump</code>
-                        <span class="text-textSecondary">Performs a single jump action.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra face &lt;heading&gt;</code>
-                        <span class="text-textSecondary">Immediately turns your character to the specified heading (0-360).</span>
-                    </div>
+                    <p class="text-sm text-textSecondary mb-8">RynthAi accepts <code>/mt</code> commands as an alias layer. If you have meta files or macros written for Mag-Tools, most will work without changes.</p>
+
+                    <!-- /mt Options -->
+                    <section id="mt-options" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-sliders"></i> Options
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/mt opt list</code>
+                                <span class="text-textSecondary">List all option names and their current values.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt opt get &lt;option&gt;</code>
+                                <span class="text-textSecondary">Get the current value of one option.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt opt set &lt;option&gt; &lt;value&gt;</code>
+                                <span class="text-textSecondary">Set an option by name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt opt remember &lt;option&gt;</code>
+                                <span class="text-textSecondary">Stash the current value of an option (for later restore).</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt opt restore &lt;option&gt;</code>
+                                <span class="text-textSecondary">Restore a previously stashed option value.</span>
+                            </div>
+                        </div>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden mt-3">
+                            <div class="px-4 py-2 bg-dark/40 border-b border-border">
+                                <span class="text-xs uppercase tracking-widest text-textSecondary">Valid option names</span>
+                            </div>
+                            <div class="opt-pills">
+                                <span class="opt-pill">enablecombat</span>
+                                <span class="opt-pill">enablelooting</span>
+                                <span class="opt-pill">enablenav</span>
+                                <span class="opt-pill">enablebuffing</span>
+                                <span class="opt-pill">enablemeta</span>
+                                <span class="opt-pill">opendoors</span>
+                                <span class="opt-pill">idlepeacemode</span>
+                                <span class="opt-pill">idlebufftopoff</span>
+                                <span class="opt-pill">summonpets</span>
+                                <span class="opt-pill">combinesalvage</span>
+                                <span class="opt-pill">attackdistance</span>
+                                <span class="opt-pill">approachdistance</span>
+                                <span class="opt-pill">navpriorityboost</span>
+                                <span class="opt-pill">lootpriorityboost</span>
+                                <span class="opt-pill">dooropenrange</span>
+                                <span class="opt-pill">autofellowmanagement</span>
+                                <span class="opt-pill">switchwandstodebuff</span>
+                                <span class="opt-pill">lootonlyrarecorpses</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- /mt Actions -->
+                    <section id="mt-actions" class="mb-12">
+                        <h2 class="text-xl font-bold mb-4 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-bolt"></i> Actions
+                        </h2>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/mt combatstate &lt;mode&gt;</code>
+                                <span class="text-textSecondary">Change combat mode: <code>peace</code>, <code>melee</code>, <code>missile</code>, or <code>magic</code>.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt face &lt;degrees&gt;</code>
+                                <span class="text-textSecondary">Turn the character to the given heading (0–360).</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt cast &lt;id|name&gt; [on &lt;target&gt;]</code>
+                                <span class="text-textSecondary">Cast by numeric ID or exact spell name. Optional <code>on &lt;target&gt;</code> names the target.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt castp &lt;partial&gt; [on &lt;target&gt;]</code>
+                                <span class="text-textSecondary">Cast by partial spell name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt use &lt;name&gt;</code>
+                                <span class="text-textSecondary">Use item — exact name, inventory + landscape.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt usep &lt;name&gt;</code>
+                                <span class="text-textSecondary">Use item — partial name, inventory + landscape.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt usei &lt;name&gt;</code>
+                                <span class="text-textSecondary">Use item — exact name, inventory only.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt useip &lt;name&gt;</code>
+                                <span class="text-textSecondary">Use item — partial name, inventory only.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt usel &lt;name&gt;</code>
+                                <span class="text-textSecondary">Use item — exact name, landscape only.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt uselp &lt;name&gt;</code>
+                                <span class="text-textSecondary">Use item — partial name, landscape only.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt select &lt;name&gt;</code>
+                                <span class="text-textSecondary">Select object — exact name, inventory + landscape.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt selectp &lt;name&gt;</code>
+                                <span class="text-textSecondary">Select object — partial name, inventory + landscape.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt give &lt;item&gt; to &lt;target&gt;</code>
+                                <span class="text-textSecondary">Give item — exact item name, exact player name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt givep &lt;item&gt; to &lt;target&gt;</code>
+                                <span class="text-textSecondary">Give item — partial item name, exact player name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt loot &lt;name&gt;</code>
+                                <span class="text-textSecondary">Loot item from open corpse — exact name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt lootp &lt;name&gt;</code>
+                                <span class="text-textSecondary">Loot item from open corpse — partial name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt drop &lt;name&gt;</code>
+                                <span class="text-textSecondary">Drop item to ground — exact name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt dropp &lt;name&gt;</code>
+                                <span class="text-textSecondary">Drop item to ground — partial name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt equip &lt;name&gt;</code>
+                                <span class="text-textSecondary">Equip item from pack — exact name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt equipp &lt;name&gt;</code>
+                                <span class="text-textSecondary">Equip item from pack — partial name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt dequip &lt;name&gt;</code>
+                                <span class="text-textSecondary">Unequip item to pack — exact name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt dequipp &lt;name&gt;</code>
+                                <span class="text-textSecondary">Unequip item to pack — partial name.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt fellow &lt;action&gt;</code>
+                                <span class="text-textSecondary">Fellowship management: <code>create</code>, <code>open</code>, <code>close</code>, <code>disband</code>, <code>quit</code>, <code>recruit</code>.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/mt logoff &nbsp;/&nbsp; /mt logout &nbsp;/&nbsp; /mt quit &nbsp;/&nbsp; /mt exit</code>
+                                <span class="text-textSecondary">Disconnect the current character from the server.</span>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
 
-            <!-- Buffing & Combat -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-shield"></i> Buffing & Combat
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra rebuff | forcebuff</code>
-                        <span class="text-textSecondary">Initiates a complete buff sequence on yourself.</span>
+                <!-- ══════════════════════════════════════════════════
+                     /ub — UtilityBelt Compatibility
+                ══════════════════════════════════════════════════ -->
+                <div>
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="h-px flex-1 bg-border"></div>
+                        <span class="text-2xl font-black tracking-tighter text-primary">/ub &mdash; UtilityBelt Compatibility</span>
+                        <div class="h-px flex-1 bg-border"></div>
                     </div>
-                    <div class="cmd-row">
-                        <code>/ra cancelforcebuff</code>
-                        <span class="text-textSecondary">Cancels an active buff sequence.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra setattackbar &lt;melee|missile&gt; &lt;0-1&gt;</code>
-                        <span class="text-textSecondary">Sets melee or missile attack power (0.0 = 0%, 1.0 = 100%).</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra autoattackpower &lt;auto|0-100&gt;</code>
-                        <span class="text-textSecondary">Sets both melee and missile power, or 'auto' for full power.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra blacklist [clear]</code>
-                        <span class="text-textSecondary">View blacklist settings or clear the blacklist.</span>
-                    </div>
+
+                    <section id="ub" class="mb-12">
+                        <p class="text-sm text-textSecondary mb-4">Only the jump command is currently implemented under the <code>/ub</code> prefix. All jump syntax is identical to <code>/ra jump</code>.</p>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/ub jump[swzxc] [heading] [holdtime]</code>
+                                <span class="text-textSecondary">
+                                    Identical to <code>/ra jump</code>. Suffixes: <code>s</code> = run, <code>w</code> = forward, <code>x</code> = back, <code>z</code> = strafe left, <code>c</code> = strafe right.
+                                </span>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
 
-            <!-- Diagnostics & Testing -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-wrench"></i> Diagnostics & Testing
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra lostest</code>
-                        <span class="text-textSecondary">Runs line-of-sight test diagnostics against current target.</span>
+                <!-- ══════════════════════════════════════════════════
+                     Host & Plugin Commands
+                ══════════════════════════════════════════════════ -->
+                <div>
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="h-px flex-1 bg-border"></div>
+                        <span class="text-2xl font-black tracking-tighter text-primary">Host &amp; Plugin Commands</span>
+                        <div class="h-px flex-1 bg-border"></div>
                     </div>
-                    <div class="cmd-row">
-                        <code>/ra raycast</code>
-                        <span class="text-textSecondary">Shows raycast system initialization status.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra probe</code>
-                        <span class="text-textSecondary">Displays CombatActionHelper pattern scan status.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra testattack</code>
-                        <span class="text-textSecondary">Sends a single melee attack to current selection (combat disabled).</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra spelldump &lt;keyword&gt;</code>
-                        <span class="text-textSecondary">Searches spell database for spells matching a keyword.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra bufftest &lt;spell&gt;</code>
-                        <span class="text-textSecondary">Traces the complete buff lookup path for a spell name.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra debugbuffs | db</code>
-                        <span class="text-textSecondary">Prints active buff tracking debug info.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra debugnav | dn</code>
-                        <span class="text-textSecondary">Toggles navigation system debug output.</span>
-                    </div>
+
+                    <!-- /rc RynthCore Host -->
+                    <section id="rc" class="mb-12">
+                        <h2 class="text-xl font-bold mb-2 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-microchip"></i> /rc &mdash; RynthCore Host
+                        </h2>
+                        <p class="text-sm text-textSecondary mb-4">Engine-level commands handled before any plugin or AC sees the line — they work even when the overlay bar is hidden.</p>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/rc vitals</code>
+                                <span class="text-textSecondary">Toggle the custom D3D9 HP / Stamina / Mana vital HUD. Setting persists to <code>engine.json</code> across relaunches. Alias: <code>/rc hud</code>.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rc resetbar</code>
+                                <span class="text-textSecondary">Reset the Avalonia overlay bar position to the top of the screen. Also accessible via the launcher's <strong>Reset Overlay Bar</strong> button. Alias: <code>/rc barreset</code>.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- /rnav RynthNav -->
+                    <section id="rnav" class="mb-12">
+                        <h2 class="text-xl font-bold mb-2 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-map-location-dot"></i> /rnav &mdash; RynthNav
+                        </h2>
+                        <p class="text-sm text-textSecondary mb-4">Requires the <strong>RynthNav</strong> plugin and pre-baked navmesh tiles in <code>C:\Games\RynthCore\NavData\</code>. Type a coordinate and the plugin walks your character there automatically via DotRecast, avoiding buildings and obstacles.</p>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/rnav goto &lt;coord&gt;</code>
+                                <span class="text-textSecondary">Auto-walk to a map coordinate. Example: <code>/rnav goto 2.7N, 18.9E</code>. Stops on arrival.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav stop</code>
+                                <span class="text-textSecondary">Cancel active navigation and halt movement.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav here</code>
+                                <span class="text-textSecondary">Report the current landblock ID and navmesh tile status at the player's position.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav load</code>
+                                <span class="text-textSecondary">Reload the tile window around the player (useful after teleporting).</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav test</code>
+                                <span class="text-textSecondary">Test whether the player is on the navmesh and print the result.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav route &lt;coord&gt;</code>
+                                <span class="text-textSecondary">Plan a portal-assisted route to the destination and display each leg — no movement started.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav preview &lt;coord&gt;</code>
+                                <span class="text-textSecondary">One-shot path preview for a nearby target — shows the planned path without committing to navigation.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav portals on|off</code>
+                                <span class="text-textSecondary">Toggle portal-assisted routing in multi-leg paths. Experimental; off by default.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rnav help</code>
+                                <span class="text-textSecondary">Print command usage to chat.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- /rv RynthVision -->
+                    <section id="rv" class="mb-12">
+                        <h2 class="text-xl font-bold mb-2 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-eye"></i> /rv &mdash; RynthVision
+                        </h2>
+                        <p class="text-sm text-textSecondary mb-4">Requires the <strong>RynthVision</strong> plugin and a clean (no-Decal) client. Renders world overlays — radar, slope highlighting, water highlighting — directly into the D3D9 scene.</p>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/rv radar</code>
+                                <span class="text-textSecondary">Toggle the radar range ring overlay.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rv slopes</code>
+                                <span class="text-textSecondary">Toggle highlighting of unclimbable slope geometry.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rv water</code>
+                                <span class="text-textSecondary">Toggle highlighting of impassable water cells.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rv watertypes</code>
+                                <span class="text-textSecondary">Log terrain type indices at the player's current cell — diagnostic tool for water classification.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rv debug</code>
+                                <span class="text-textSecondary">Toggle player-pose diagnostic logging to the RynthCore log.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/rv</code>
+                                <span class="text-textSecondary">Bare command — save current settings and log the current state of all overlays.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- /juice RynthJuice -->
+                    <section id="juice" class="mb-12">
+                        <h2 class="text-xl font-bold mb-2 text-primary flex items-center gap-3">
+                            <i class="fa-solid fa-fire-flame-curved"></i> /juice &mdash; RynthJuice
+                        </h2>
+                        <p class="text-sm text-textSecondary mb-4">Requires the <strong>RynthJuice</strong> plugin and a clean (no-Decal) client. Renders floating damage and heal numbers in-world above targets, with crit bursts and dungeon interior support.</p>
+                        <div class="bg-panel border border-border rounded-xl overflow-hidden">
+                            <div class="cmd-row">
+                                <code>/juice &nbsp;/&nbsp; /juice toggle</code>
+                                <span class="text-textSecondary">Toggle floating damage numbers on/off.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice on &nbsp;/&nbsp; /juice off</code>
+                                <span class="text-textSecondary">Explicitly enable or disable floating numbers.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice heals</code>
+                                <span class="text-textSecondary">Toggle green heal numbers when you or a target is healed.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice playerdmg</code>
+                                <span class="text-textSecondary">Toggle red damage numbers when you take a hit.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice scale &lt;N&gt;</code>
+                                <span class="text-textSecondary">Set number size (0.3–4.0, default 1.0). Example: <code>/juice scale 1.5</code>.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice height &lt;N&gt;</code>
+                                <span class="text-textSecondary">Set vertical offset above targets in meters (0–8, default ~1.8). Example: <code>/juice height 2.0</code>.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice test</code>
+                                <span class="text-textSecondary">Spawn demo numbers and a kill burst at the player position to verify rendering is working.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice debug</code>
+                                <span class="text-textSecondary">Toggle combat-log parsing output to the RynthCore log.</span>
+                            </div>
+                            <div class="cmd-row">
+                                <code>/juice help</code>
+                                <span class="text-textSecondary">Print command usage to chat.</span>
+                            </div>
+                        </div>
+                    </section>
+
                 </div>
-            </section>
 
-            <!-- Meta System -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-diagram-project"></i> Meta System
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra meta load &lt;file&gt;</code>
-                        <span class="text-textSecondary">Loads a VTank-compatible <code>.met</code> meta profile.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra setmetastate &lt;state&gt;</code>
-                        <span class="text-textSecondary">Forces meta engine to transition to a specific named state.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra watchdog | wd</code>
-                        <span class="text-textSecondary">Prints the status of the active state watchdog timer.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra fakedeath</code>
-                        <span class="text-textSecondary">Simulates a character death event for testing recovery logic.</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Fellowship & Corpses -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-users"></i> Fellowship & Corpses
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra fellow status</code>
-                        <span class="text-textSecondary">Shows detailed fellowship info, member list, and roles.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra fellow leader</code>
-                        <span class="text-textSecondary">Displays current fellowship leader name and ID.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra fellow count</code>
-                        <span class="text-textSecondary">Shows total number of fellowship members.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra fellow names</code>
-                        <span class="text-textSecondary">Lists all fellowship member names.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra fellow ismember &lt;name&gt;</code>
-                        <span class="text-textSecondary">Checks if a specific player is in the fellowship.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra fellow [open|locked|sharexp|name]</code>
-                        <span class="text-textSecondary">Queries various fellowship properties.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra corpsedebug</code>
-                        <span class="text-textSecondary">Shows detailed ownership and killer info for selected corpse.</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Looting & Inventory -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-bag"></i> Looting & Inventory
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra loot load &lt;file&gt;</code>
-                        <span class="text-textSecondary">Loads a VTank-compatible <code>.utl</code> loot profile.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra opt set enablelooting &lt;true|false&gt;</code>
-                        <span class="text-textSecondary">Enables or disables the looting subsystem.</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Settings & Configuration -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-sliders"></i> Settings & Configuration
-                </h2>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/ra settings save</code>
-                        <span class="text-textSecondary">Saves current settings to disk.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra opt set &lt;option&gt; &lt;value&gt;</code>
-                        <span class="text-textSecondary">Sets configuration options (enablecombat, enablenav, etc).</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/ra echo &lt;text&gt;</code>
-                        <span class="text-textSecondary">Echoes text to chat for debugging or notifications.</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- RynthCore Host Commands -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-microchip"></i> RynthCore Host
-                </h2>
-                <p class="text-textSecondary mb-4 text-sm">Engine-level commands using the <code>/rc</code> prefix. These are handled before plugins and before AC sees the line, so they work even when the overlay bar is hidden.</p>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/rc vitals</code>
-                        <span class="text-textSecondary">Toggles the custom D3D9 HP/Stamina/Mana HUD on or off. Setting persists across relaunches. Alias: <code>/rc hud</code>.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/rc resetbar</code>
-                        <span class="text-textSecondary">Resets the overlay bar position to the top of the screen. Also accessible from the launcher's <strong>Reset Overlay Bar</strong> button. Alias: <code>/rc barreset</code>.</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- RynthNav -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-route"></i> RynthNav (Mesh Navigation)
-                </h2>
-                <p class="text-textSecondary mb-4 text-sm">Requires the <strong>RynthNav</strong> plugin. Type a coordinate and the plugin walks your character there automatically via a DotRecast navmesh, avoiding buildings and obstacles.</p>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/rnav goto &lt;coord&gt;</code>
-                        <span class="text-textSecondary">Navigate to a map coordinate, e.g. <code>/rnav goto 2.7N, 18.9E</code>. Stops on arrival.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/rnav stop</code>
-                        <span class="text-textSecondary">Cancels active navigation immediately.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/rnav here</code>
-                        <span class="text-textSecondary">Prints your current player coordinates in AC map format.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/rnav load</code>
-                        <span class="text-textSecondary">Loads or refreshes navmesh tiles for the current landblock.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/rnav test</code>
-                        <span class="text-textSecondary">Runs a path-finding test query in the current tile and prints the result.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/rnav route &lt;coord&gt;</code>
-                        <span class="text-textSecondary">Plans a multi-leg route to the destination and prints the legs without starting movement.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/rnav portals on|off</code>
-                        <span class="text-textSecondary">Enables or disables portal routing in multi-leg paths (experimental, off by default).</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- RynthJuice -->
-            <section>
-                <h2 class="text-2xl font-bold mb-6 text-primary flex items-center gap-3">
-                    <i class="fa-solid fa-fire-flame-curved"></i> RynthJuice (Combat FX)
-                </h2>
-                <p class="text-textSecondary mb-4 text-sm">Requires the <strong>RynthJuice</strong> plugin. Renders floating damage and heal numbers in-world above targets, with crit bursts and dungeon interior support. Needs a clean (no-Decal) client.</p>
-                <div class="bg-panel border border-border rounded-xl overflow-hidden">
-                    <div class="cmd-row">
-                        <code>/juice on|off|toggle</code>
-                        <span class="text-textSecondary">Enables, disables, or toggles floating damage numbers.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/juice test</code>
-                        <span class="text-textSecondary">Spawns a test damage float above your character to verify rendering is working.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/juice heals</code>
-                        <span class="text-textSecondary">Toggles display of incoming heal numbers.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/juice playerdmg</code>
-                        <span class="text-textSecondary">Toggles display of damage dealt to the player.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/juice scale &lt;N&gt;</code>
-                        <span class="text-textSecondary">Sets text scale from 0.3 to 4.0. Default is 1.0. Example: <code>/juice scale 1.5</code>.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/juice height &lt;N&gt;</code>
-                        <span class="text-textSecondary">Sets the float height offset above targets in meters (0–8). Example: <code>/juice height 1.8</code>.</span>
-                    </div>
-                    <div class="cmd-row">
-                        <code>/juice debug</code>
-                        <span class="text-textSecondary">Prints render diagnostics — last frame status and what effects were emitted.</span>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    </main>
+            </div>
+        </main>
+    </div>
 
     <footer class="bg-dark py-12 border-t border-border">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthAi Command Line Documentation</p>
+            <p class="text-textSecondary text-xs uppercase tracking-widest">RynthCore Command Line Reference</p>
         </div>
     </footer>
+
 </body>
 </html>
